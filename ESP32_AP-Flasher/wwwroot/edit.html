@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+	<meta charset="UTF-8">
 	<title>ESP Editor</title>
 	<link rel="icon" href="data:,">
 	<style type="text/css" media="screen">
@@ -289,7 +290,7 @@
 			var xmlHttp;
 
 			var refresh = ce("button");
-			refresh.innerHTML = 'Refresh List';
+			refresh.innerHTML = "刷新列表";
 			ge(element).appendChild(refresh);
 
 			var path = ce("input");
@@ -322,14 +323,14 @@
 
 			var button = ce("button");
 			button.id = "button";
-			button.innerHTML = 'Upload';
-			button.style.display = 'none';
+			button.innerHTML = " 上传 ";
+			button.style.display = "none";
 			ge(element).appendChild(button);
 
 			var savefile = ce("button");
 			savefile.id = "savefile";
-			savefile.innerHTML = ' Save ';
-			savefile.style.display = 'none';
+			savefile.innerHTML = " 保存 ";
+			savefile.style.display = "none";
 			ge(element).appendChild(savefile);
 
 			function httpPostProcessRequest(status, responseText) {
@@ -414,11 +415,11 @@
 					if (window.opener && !window.opener.closed) {
 						targetDiv = window.opener.document.querySelector(`div[data-mac="${mac}"]`);
 					} else {
-						preview.innerHTML = `<p class=\"tvu\">I cannot reach the window with the tag overview. Close this window, and open it again from the tag overview.</p>`;
+						preview.innerHTML = `<p class=\"tvu\">我无法访问带有标签概览的窗口。请关闭此窗口，然后从标签概览中重新打开它。</p>`;
 						return;
 					}
 					if (targetDiv) {
-						preview.innerHTML = `<p class=\"tvu\">Preview image for tag ${mac}<p><p><canvas id=\"previewimg\"></p>`;
+						preview.innerHTML = `<p class=\"tvu\">标签 ${mac} 的预览图像<p><p><canvas id=\"previewimg\"></p>`;
 						var hwtype = targetDiv.getAttribute("data-hwtype");
 						console.log("data-hwtype:", hwtype);
 
@@ -507,7 +508,7 @@
 							});
 						
 					} else {
-						preview.innerHTML = `<p class=\"tvu\">No current tag found with this mac. You can safely delete this file.</p>`;
+						preview.innerHTML = `<p class=\"tvu\">未找到与此MAC地址对应的当前标签。您可以安全地删除此文件。</p>`;
 					}
 				} else {
 					preview.innerHTML = '<img src="/edit?edit=' + path + '&_cb=' + Date.now() + '" style="max-width:100%; max-height:100%; margin:auto; display:block;" />';
@@ -520,13 +521,13 @@
 				var action = ce("li");
 				list.appendChild(action);
 				if (isImageFile(path)) {
-					action.innerHTML = "<span>Preview</span>";
+					action.innerHTML = "<span>预览</span>";
 					action.onclick = function (e) {
 						loadPreview(path);
 						if (document.body.getElementsByClassName('cm').length > 0) document.body.removeChild(el);
 					};
 				} else if (isTextFile(path)) {
-					action.innerHTML = "<span>Edit</span>";
+					action.innerHTML = "<span>编辑</span>";
 					action.onclick = function (e) {
 						editor.loadUrl(path);
 						if (document.body.getElementsByClassName('cm').length > 0) document.body.removeChild(el);
@@ -534,14 +535,14 @@
 				}
 				var download = ce("li");
 				list.appendChild(download);
-				download.innerHTML = "<span>Download</span>";
+				download.innerHTML = "<span>下载</span>";
 				download.onclick = function (e) {
 					loadDownload(path);
 					if (document.body.getElementsByClassName('cm').length > 0) document.body.removeChild(el);
 				};
 				var delFile = ce("li");
 				list.appendChild(delFile);
-				delFile.innerHTML = "<span>Delete</span>";
+				delFile.innerHTML = "<span>删除</span>";
 				delFile.onclick = function (e) {
 					httpDelete(path);
 					if (document.body.getElementsByClassName('cm').length > 0) document.body.removeChild(el);

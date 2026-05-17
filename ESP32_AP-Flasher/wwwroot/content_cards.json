@@ -2,208 +2,208 @@
   {
     "id": 0,
     "name": "",
-    "desc": "Not configured",
+    "desc": "未配置",
     "param": [ ]
   },
   {
     "id": 22,
-    "name": "Static image",
-    "desc": "Shows a static image, from file system or painter. Make sure to resize the image to the correct resolution.",
+    "name": "静态图像",
+    "desc": "显示来自文件系统或绘图程序的静态图像。确保将图像调整到正确的分辨率。",
     "param": [
       {
         "key": "filename",
-        "name": "Filename",
-        "desc": "Local filename on the littlefs drive",
+        "name": "文件名",
+        "desc": "littlefs 驱动器上的本地文件名",
         "type": "jpgfile"
       },
       {
         "key": "dither",
-        "name": "Dithering",
-        "desc": "Turn halftone dithering on or off. Turn it on when displaying photos. For texts, you better leave if off",
+        "name": "抖动",
+        "desc": "打开或关闭半色调抖动。显示照片时将其打开。对于文本，最好将其关闭",
         "type": "select",
         "options": {
-          "0": "off",
-          "1": "floyd-steinberg dithering",
-          "2": "ordered dithering"
+          "0": "关闭",
+          "1": "floyd-steinberg 抖动",
+          "2": "有序抖动"
         }
       }
     ]
   },
   {
     "id": 24,
-    "name": "External image",
-    "desc": "Image from external source",
+    "name": "外部图像",
+    "desc": "来自外部源的图像",
     "param": [ ]
   },
   {
     "id": 25,
     "name": "Home Assistant",
-    "desc": "Image from Home Assistant",
+    "desc": "来自 Home Assistant 的图像",
     "param": [ ]
   },
   {
     "id": 1,
-    "name": "Current date",
-    "desc": "Shows the current date. In some templates, the sunrise and sunset times are shown as well, when you fill in your location.",
+    "name": "当前日期",
+    "desc": "显示当前日期。在某些模板中，当您填入位置时，还会显示日出和日落时间。",
     "param": [
       {
         "key": "location",
-        "name": "Location",
-        "desc": "Name of the city. This is used to lookup the lat/long data, and to display as the title",
+        "name": "位置",
+        "desc": "城市名称。这用于查找纬度/经度数据，并显示为标题",
         "type": "geoselect"
       },
       {
         "key": "#lat",
-        "name": "Lat",
-        "desc": "Latitude (set automatic when generating image)",
+        "name": "纬度",
+        "desc": "纬度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#lon",
-        "name": "Lon",
-        "desc": "Longitude (set automatic when generating image)",
+        "name": "经度",
+        "desc": "经度（生成图像时自动设置）",
         "type": "ro"
       }
     ]
   },
   {
     "id": 2,
-    "name": "Count days",
-    "desc": "Counts days, starting with the value below. If the count value gets higher than the threshold, the number is displayed in red, otherwise it's black",
+    "name": "计数天数",
+    "desc": "从下面的值开始计数天数。如果计数值高于阈值，数字显示为红色，否则为黑色",
     "param": [
       {
         "key": "counter",
-        "name": "Counter value",
-        "desc": "Current value",
+        "name": "计数值",
+        "desc": "当前值",
         "type": "int"
       },
       {
         "key": "thresholdred",
-        "name": "Threshold",
-        "desc": "Value is displayed in red if higher than the threshold",
+        "name": "阈值",
+        "desc": "如果值高于阈值，则显示为红色",
         "type": "int"
       }
     ]
   },
   {
     "id": 3,
-    "name": "Count hours",
-    "desc": "Counts hours, starting with the value below. If the count value gets higher than the threshold, the number is displayed in red, otherwise it's black",
+    "name": "计数小时",
+    "desc": "从下面的值开始计数小时。如果计数值高于阈值，数字显示为红色，否则为黑色",
     "param": [
       {
         "key": "counter",
-        "name": "Counter",
-        "desc": "Current value",
+        "name": "计数值",
+        "desc": "当前值",
         "type": "int"
       },
       {
         "key": "thresholdred",
-        "name": "Threshold",
-        "desc": "Value is displayed in red if higher than the threshold",
+        "name": "阈值",
+        "desc": "如果值高于阈值，则显示为红色",
         "type": "int"
       }
     ]
   },
   {
     "id": 4,
-    "name": "Current weather",
-    "desc": "Current weather. Weather data by Open-Meteo.com. Parameters Lat, Lon and Time Zone are filled automatically from the entered location. In case of an ambiguous location, choose from the drop down list.",
+    "name": "当前天气",
+    "desc": "当前天气。天气数据来自 Open-Meteo.com。纬度、经度和时区参数会根据输入的位置自动填充。在位置不明确的情况下，从下拉列表中选择。",
     "param": [
       {
         "key": "location",
-        "name": "Location",
-        "desc": "Name of the city. This is used to lookup the lat/long data, and to display as the title",
+        "name": "位置",
+        "desc": "城市名称。这用于查找纬度/经度数据，并显示为标题",
         "type": "geoselect"
       },
       {
         "key": "units",
-        "name": "Units",
-        "desc": "Celcius or Fahrenheit?",
+        "name": "单位",
+        "desc": "摄氏度还是华氏度？",
         "type": "select",
         "options": {
-          "0": "-Celcius / Beaufort / millimeters",
-          "1": "Fahrenheit / mph / inches"
+          "0": "-摄氏度 / 蒲福风级 / 毫米",
+          "1": "华氏度 / 英里/小时 / 英寸"
         }
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "How often the info is being refreshed.",
+        "name": "间隔",
+        "desc": "信息刷新的频率。",
         "type": "select",
         "options": {
-          "30": "-Every 30 minutes",
-          "60": "Every hour",
-          "180": "Every three hours"
+          "30": "-每 30 分钟",
+          "60": "每小时",
+          "180": "每三小时"
         }
       },
       {
         "key": "#lat",
-        "name": "Lat",
-        "desc": "Latitude (set automatic when generating image)",
+        "name": "纬度",
+        "desc": "纬度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#lon",
-        "name": "Lon",
-        "desc": "Longitude (set automatic when generating image)",
+        "name": "经度",
+        "desc": "经度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#tz",
-        "name": "Time zone",
-        "desc": "Time zone (set automatic when generating image)",
+        "name": "时区",
+        "desc": "时区（生成图像时自动设置）",
         "type": "ro"
       }
     ]
   },
   {
     "id": 8,
-    "name": "Weather forecast",
-    "desc": "Weather forecast for the next five days. Weather data by Open-Meteo.com. Parameters Lat, Lon and Time Zone are filled automatically from the entered location. In case of an ambiguous location, choose from the drop down list.",
+    "name": "天气预报",
+    "desc": "未来五天的天气预报。天气数据来自 Open-Meteo.com。纬度、经度和时区参数会根据输入的位置自动填充。在位置不明确的情况下，从下拉列表中选择。",
     "param": [
       {
         "key": "location",
-        "name": "Location",
-        "desc": "Name of the city. This is used to lookup the lat/long data, and to display as the title",
+        "name": "位置",
+        "desc": "城市名称。这用于查找纬度/经度数据，并显示为标题",
         "type": "geoselect"
       },
       {
         "key": "units",
-        "name": "Units",
-        "desc": "Celcius or Fahrenheit?",
+        "name": "单位",
+        "desc": "摄氏度还是华氏度？",
         "type": "select",
         "options": {
-          "0": "-Celcius / Beaufort / millimeters",
-          "1": "Fahrenheit / mph / inches"
+          "0": "-摄氏度 / 蒲福风级 / 毫米",
+          "1": "华氏度 / 英里/小时 / 英寸"
         }
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "How often the forecast is being refreshed.",
+        "name": "间隔",
+        "desc": "预报刷新的频率。",
         "type": "select",
         "options": {
-          "60": "Every hour",
-          "180": "-Every three hours",
-          "-1440": "At midnight"
+          "60": "每小时",
+          "180": "-每三小时",
+          "-1440": "午夜"
         }
       },
       {
         "key": "#lat",
-        "name": "Lat",
-        "desc": "Latitude (set automatic when generating image)",
+        "name": "纬度",
+        "desc": "纬度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#lon",
-        "name": "Lon",
-        "desc": "Longitude (set automatic when generating image)",
+        "name": "经度",
+        "desc": "经度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#tz",
-        "name": "Time zone",
-        "desc": "Time zone (set automatic when generating image)",
+        "name": "时区",
+        "desc": "时区（生成图像时自动设置）",
         "type": "ro"
       }
     ]
@@ -211,411 +211,411 @@
   {
     "id": 16,
     "name": "Buienradar",
-    "desc": "Dutch rain predictions for the next two hours. Only works for locations in the Netherlands and Belgium.",
+    "desc": "未来两小时的荷兰降雨预报。仅适用于荷兰和比利时的位置。",
     "param": [
       {
         "key": "location",
-        "name": "Location",
-        "desc": "Name of the city. This is used to lookup the lat/long data, and to display as the title",
+        "name": "位置",
+        "desc": "城市名称。这用于查找纬度/经度数据，并显示为标题",
         "type": "geoselect"
       },
       {
         "key": "#lat",
-        "name": "Lat",
-        "desc": "Latitude (set automatic when generating image)",
+        "name": "纬度",
+        "desc": "纬度（生成图像时自动设置）",
         "type": "ro"
       },
       {
         "key": "#lon",
-        "name": "Lon",
-        "desc": "Longitude (set automatic when generating image)",
+        "name": "经度",
+        "desc": "经度（生成图像时自动设置）",
         "type": "ro"
       }
     ]
   },
   {
     "id": 9,
-    "name": "RSS feed",
-    "desc": "Gets an RSS feed, and display the first few lines of it",
+    "name": "RSS 订阅",
+    "desc": "获取 RSS 订阅，并显示其前几行",
     "properties": [ "savespace" ],
     "param": [
       {
         "key": "title",
-        "name": "Title",
-        "desc": "Displayed title",
+        "name": "标题",
+        "desc": "显示的标题",
         "type": "text"
       },
       {
         "key": "url",
         "name": "URL",
-        "desc": "Full URL of the RSS feed",
+        "desc": "RSS 订阅的完整 URL",
         "type": "text"
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "How often (in minutes) the feed is being refreshed. Negative value to align the interval (-60 is 'on the whole hour')",
+        "name": "间隔",
+        "desc": "订阅刷新的频率（分钟）。负值用于对齐间隔（-60 表示'整点'）",
         "type": "int"
       }
     ]
   },
   {
     "id": 7,
-    "name": "Image URL",
-    "desc": "Gets an external image and displays it",
+    "name": "图像 URL",
+    "desc": "获取外部图像并显示它",
     "param": [
       {
         "key": "url",
         "name": "URL",
-        "desc": "Full URL of the image. Image should be in jpeg format (non-progressive), and with exactly the right resolution for the screen (eg 128x296 or 152x152). Will be auto-rotated. Colors will be dithered",
+        "desc": "图像的完整 URL。图像应为 jpeg 格式（非渐进式），且分辨率与屏幕完全相同（例如 128x296 或 152x152）。将自动旋转。颜色将被抖动处理",
         "type": "text"
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "How often (in minutes) the image is being fetched. Minimum is 3 minutes. Negative value to align the interval (-60 is 'on the whole hour')",
+        "name": "间隔",
+        "desc": "图像获取的频率（分钟）。最少 3 分钟。负值用于对齐间隔（-60 表示'整点'）",
         "type": "int"
       }
     ]
   },
   {
     "id": 10,
-    "name": "QR code",
-    "desc": "Displayes a full screen QR code",
+    "name": "二维码",
+    "desc": "显示全屏二维码",
     "properties": [ "savespace" ],
     "param": [
       {
         "key": "title",
-        "name": "Title",
-        "desc": "Displayed title",
+        "name": "标题",
+        "desc": "显示的标题",
         "type": "text"
       },
       {
         "key": "qr-content",
-        "name": "QR content",
-        "desc": "Any content that can be coded into a QR code",
+        "name": "二维码内容",
+        "desc": "任何可以编码为二维码的内容",
         "type": "text"
       }
     ]
   },
   {
     "id": 11,
-    "name": "Google calendar",
-    "desc": "Displays the current and upcoming appointments (next 24 hours) from a Google calendar. To let this work, you need a small Google Apps Script to interface with your calendar. See documentation on github how to do that",
+    "name": "Google 日历",
+    "desc": "显示 Google 日历中当前和即将进行的约会（接下来 24 小时）。为了让这个功能工作，您需要一个小的 Google Apps Script 来与您的日历交互。请参阅 github 上的文档了解如何执行此操作",
     "param": [
       {
         "key": "title",
-        "name": "Title",
-        "desc": "Displayed title",
+        "name": "标题",
+        "desc": "显示的标题",
         "type": "text"
       },
       {
         "key": "apps_script_url",
         "name": "Apps Script URL",
-        "desc": "URL given by Google Apps Script",
+        "desc": "Google Apps Script 提供的 URL",
         "type": "text"
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "How often (in minutes) the calendar is being refreshed. Negative value to align the interval (-60 is 'on the whole hour')",
+        "name": "间隔",
+        "desc": "日历刷新的频率（分钟）。负值用于对齐间隔（-60 表示'整点'）",
         "type": "int"
       }
     ]
   },
   {
     "id": 26,
-    "name": "Time Stamp",
-    "desc": "Displays the last date and time when a button press took place. For example, to keep track of the last time somebody let the dog out, or when you last watered the plants, or change the bed sheets.",
+    "name": "时间戳",
+    "desc": "显示上一次按按钮的日期和时间。例如，跟踪上一次遛狗、浇水或换床单的时间。",
     "properties": [ "savespace" ],
     "param": [
       {
         "key": "title",
-        "name": "Title",
-        "desc": "Displayed title",
+        "name": "标题",
+        "desc": "显示的标题",
         "type": "text"
       },
       {
         "key": "button1",
-        "name": "Name for Button 1",
-        "desc": "Text displayed for button 1 (for example, a name or activity)",
+        "name": "按钮 1 的名称",
+        "desc": "按钮 1 显示的文本（例如名称或活动）",
         "type": "text"
       },
       {
         "key": "button2",
-        "name": "Name for Button 2",
-        "desc": "Text displayed for button 2 (for example, a name or activity)",
+        "name": "按钮 2 的名称",
+        "desc": "按钮 2 显示的文本（例如名称或活动）",
         "type": "text"
       },
       {
         "key": "mode",
-        "name": "Working mode",
-        "desc": "With 'keep one time', both buttons reset the same timestamp, recording which button is pressed last. The option for seperate date/time, records two different timestamps, one for each button.",
+        "name": "工作模式",
+        "desc": "使用'保持一个时间戳'，两个按钮重置相同的时间戳，记录上一次按下的按钮。'单独的日期/时间'选项记录两个不同的时间戳，每个按钮一个。",
         "type": "select",
         "options": {
-          "0": "keep one timestamp",
-          "1": "seperate timestamp per button"
+          "0": "保持一个时间戳",
+          "1": "每个按钮单独的时间戳"
         }
       },
       {
         "key": "nextaction",
-        "name": "Frequency (days)",
-        "desc": "When is the next action expected to take place (in days after a timestamp). Leave 0 to disable.",
+        "name": "频率（天数）",
+        "desc": "预期下一个操作何时进行（时间戳后的天数）。设置为 0 以禁用。",
         "type": "text"
       },
       {
         "key": "last1",
-        "name": "Timestamp 1",
-        "desc": "The date/time the last event took place",
+        "name": "时间戳 1",
+        "desc": "上一个事件发生的日期/时间",
         "type": "ro"
       },
       {
         "key": "last2",
-        "name": "Name, or timestamp 2",
-        "desc": "The name of the button that was pressed, or in case of seperate timestamp, the date/time of the second button press",
+        "name": "名称或时间戳 2",
+        "desc": "按下的按钮的名称，或在单独的时间戳情况下，第二个按钮按下的日期/时间",
         "type": "ro"
       }
     ]
   },
   {
     "id": 27,
-    "name": "Dayahead prices",
-    "desc": "Dayahead dynamic electricity tariffs. Source: transparency.entsoe.eu",
+    "name": "日前价格",
+    "desc": "日前动态电价。来源：transparency.entsoe.eu",
     "properties": [ "savespace" ],
     "param": [
       {
         "key": "country",
-        "name": "Country",
-        "desc": "Select your country. If your country is not in the list, we couldn't find the right region for it on transparency.entsoe.eu . Add an issue on the OEPL github to add it",
+        "name": "国家/地区",
+        "desc": "选择您的国家。如果您的国家不在列表中，我们在 transparency.entsoe.eu 上找不到对应的地区。在 OEPL github 上提出问题以添加它",
         "type": "select",
         "options": {
-          "AT": "Austria",
-          "BE": "Belgium",
-          "CZ": "Czech Republic",
-          "DK1": "Denmark DK1",
-          "DK2": "Denmark DK2",
-          "EE": "Estonia",
-          "FI": "Finland",
-          "FR": "France",
-          "DE": "Germany",
-          "LV": "Latvia",
-          "LT": "Lithuania",
-          "LU": "Luxembourg",
-          "NL": "Netherlands",
-          "NO1": "Norway NO1",
-          "NO2": "Norway NO2",
-          "NO3": "Norway NO3",
-          "NO4": "Norway NO4",
-          "NO5": "Norway NO5",
-          "PL": "Poland",
-          "PT": "Portugal",
-          "RO": "Romania",
-          "SK": "Slovakia",
-          "SI": "Slovenia",
-          "ES": "Spain",
-          "SE1": "Sweden SE1",
-          "SE2": "Sweden SE2",
-          "SE3": "Sweden SE3",
-          "SE4": "Sweden SE4",
-          "CH": "Switzerland"
+          "AT": "奥地利",
+          "BE": "比利时",
+          "CZ": "捷克共和国",
+          "DK1": "丹麦 DK1",
+          "DK2": "丹麦 DK2",
+          "EE": "爱沙尼亚",
+          "FI": "芬兰",
+          "FR": "法国",
+          "DE": "德国",
+          "LV": "拉脱维亚",
+          "LT": "立陶宛",
+          "LU": "卢森堡",
+          "NL": "荷兰",
+          "NO1": "挪威 NO1",
+          "NO2": "挪威 NO2",
+          "NO3": "挪威 NO3",
+          "NO4": "挪威 NO4",
+          "NO5": "挪威 NO5",
+          "PL": "波兰",
+          "PT": "葡萄牙",
+          "RO": "罗马尼亚",
+          "SK": "斯洛伐克",
+          "SI": "斯洛文尼亚",
+          "ES": "西班牙",
+          "SE1": "瑞典 SE1",
+          "SE2": "瑞典 SE2",
+          "SE3": "瑞典 SE3",
+          "SE4": "瑞典 SE4",
+          "CH": "瑞士"
         }
       },
       {
         "key": "tariffkwh",
-        "name": "Fixed surcharge",
-        "desc": "Fixed surcharge per kWh, in 1/100 units (cents/öre/øre). Enter one value, or an array of exactly 24 elements for each hour in the form of '[n,n,...,n]'",
+        "name": "固定附加费",
+        "desc": "每千瓦时的固定附加费，以 1/100 为单位（分/öre/øre）。输入一个值，或输入正好 24 个元素的数组，格式为 '[n,n,...,n]'",
         "type": "text"
       },
       {
         "key": "tarifftax",
-        "name": "Tax percentage",
-        "desc": "Percentage to add to the total (for example, 21, for 21% VAT)",
+        "name": "税率百分比",
+        "desc": "要添加到总额的百分比（例如 21 表示 21% 的增值税）",
         "type": "text"
       },
       {
         "key": "units",
-        "name": "Price units",
-        "desc": "Display whole units (EUR/NOK/DKK) or cents",
+        "name": "价格单位",
+        "desc": "显示整数单位（EUR/NOK/DKK）或分",
         "type": "select",
         "options": {
-          "100": "1/1 units (EUR/NOK/DKK)",
-          "1": "1/100 units (cents/öre/øre)"
+          "100": "1/1 单位 (EUR/NOK/DKK)",
+          "1": "1/100 单位 (分/öre/øre)"
         }
       },
       {
         "key": "showcurr",
-        "name": "Show current",
-        "desc": "Hourly refresh to show current price (less battery friendly)",
+        "name": "显示当前价格",
+        "desc": "每小时刷新以显示当前价格（对电池不太友好）",
         "type": "select",
         "options": {
-          "0": "No",
-          "1": "-Yes"
+          "0": "否",
+          "1": "-是"
         }
       },
       {
         "key": "interval",
-        "name": "Display interval",
-        "desc": "Data averaging interval for better readability on smaller displays",
+        "name": "显示间隔",
+        "desc": "数据平均间隔以在较小的屏幕上提高可读性",
         "type": "select",
         "options": {
-          "0": "-Native (15-min or hourly)",
-          "30": "30 minutes",
-          "60": "1 hour"
+          "0": "-原生（15 分钟或每小时）",
+          "30": "30 分钟",
+          "60": "1 小时"
         }
       },
       {
         "key": "cheapblock",
-        "name": "Cheap block hours",
-        "desc": "Number of hours for cheapest consecutive block (e.g., 3 for dishwasher, 2.5 for 2h30m). Set to 0 to disable. Shows up to 2 non-overlapping blocks.",
+        "name": "便宜时间段小时数",
+        "desc": "最便宜连续时间段的小时数（例如，洗碗机为 3，2 小时 30 分钟为 2.5）。设置为 0 以禁用。最多显示 2 个不重叠的时间段。",
         "type": "text"
       },
       {
         "key": "updatefreq",
-        "name": "Update frequency",
-        "desc": "Tag refresh interval in minutes (e.g., 15, 30, 60). Default is 15 minutes to match 15-minute data intervals. Higher values save battery.",
+        "name": "更新频率",
+        "desc": "标签刷新间隔（分钟）（例如 15、30、60）。默认为 15 分钟以匹配 15 分钟的数据间隔。更高的值可节省电池。",
         "type": "text"
       }
     ]
   },
   {
     "id": 19,
-    "name": "Json template",
-    "desc": "Gets an external json template and displays it",
+    "name": "Json 模板",
+    "desc": "获取外部 json 模板并显示它",
     "param": [
       {
         "key": "url",
         "name": "URL",
-        "desc": "Full URL of the json template. See OpenEpaperLink wiki for the right json format. Specify a url OR a filename",
+        "desc": "json 模板的完整 URL。请参阅 OpenEpaperLink wiki 了解正确的 json 格式。指定 URL 或文件名",
         "type": "text"
       },
       {
         "key": "filename",
-        "name": "Filename",
-        "desc": "Filename of the json template. See OpenEpaperLink wiki for the right json format. Specify a url OR a filename",
+        "name": "文件名",
+        "desc": "json 模板的文件名。请参阅 OpenEpaperLink wiki 了解正确的 json 格式。指定 URL 或文件名",
         "type": "jsonfile"
       },
       {
         "key": "interval",
-        "name": "Interval",
-        "desc": "In case of an url, how often (in minutes) the template is being fetched. Minimum is 3 minutes. Negative value to align the interval (-60 is 'on the whole hour')",
+        "name": "间隔",
+        "desc": "对于 URL，模板获取的频率（分钟）。最少 3 分钟。负值用于对齐间隔（-60 表示'整点'）",
         "type": "int"
       }
     ]
   },
   {
     "id": 20,
-    "name": "Display a copy",
-    "desc": "Mirror the contents of a source tag to this destination tag, regardless of the content. The two tags should be of the same type. Ideally, the destination tag is local to the AP.",
+    "name": "显示副本",
+    "desc": "将源标签的内容镜像到此目标标签，无论内容如何。两个标签应该是相同的类型。理想情况下，目标标签应该在 AP 本地。",
     "param": [
       {
         "key": "mac",
-        "name": "Mac-address",
-        "desc": "Mac-address of the tag you want to use as content source. The source tag should either be associated with this access point, or this access point should be the content source.",
+        "name": "Mac 地址",
+        "desc": "要用作内容源的标签的 Mac 地址。源标签应该与此访问点相关联，或此访问点应该是内容源。",
         "type": "text"
       }
     ]
   },
   {
     "id": 21,
-    "name": "Access point info",
-    "desc": "Displays information about the currently connected access point"
+    "name": "接入点信息",
+    "desc": "显示关于当前连接的接入点的信息"
   },
   {
     "id": 23,
-    "name": "Image preload",
-    "desc": "Preloads an image to be shown at different situations. Make sure to resize the image to the correct resolution.",
+    "name": "图像预加载",
+    "desc": "预加载要在不同情况下显示的图像。确保将图像调整到正确的分辨率。",
     "param": [
       {
         "key": "filename",
-        "name": "Filename",
-        "desc": "Local filename on the littlefs drive",
+        "name": "文件名",
+        "desc": "littlefs 驱动器上的本地文件名",
         "type": "jpgfile"
       },
       {
         "key": "timetolive",
-        "name": "TimeToLive",
-        "desc": "Amount (minutes) that this image will stay valid. The tag might not respond meanwhile",
+        "name": "有效期",
+        "desc": "此图像保持有效的时间（分钟）。同时标签可能不会响应",
         "type": "int"
       },
       {
         "key": "dither",
-        "name": "Dithering",
-        "desc": "Turn halftone dithering on or off. Turn it on when displaying photos. For texts, you better leave if off",
+        "name": "抖动",
+        "desc": "打开或关闭半色调抖动。显示照片时将其打开。对于文本，最好将其关闭",
         "type": "select",
         "options": {
-          "0": "off",
-          "1": "floyd-steinberg dithering",
-          "2": "ordered dithering"
+          "0": "关闭",
+          "1": "floyd-steinberg 抖动",
+          "2": "有序抖动"
         }
       },
       {
         "key": "preload",
-        "name": "Display or Preload",
-        "desc": "Display now or preload for later use",
+        "name": "显示或预加载",
+        "desc": "立即显示或预加载以供以后使用",
         "type": "select",
         "options": {
-          "0": "Display",
-          "1": "Preload"
+          "0": "显示",
+          "1": "预加载"
         }
       },
       {
         "key": "preload_lut",
-        "name": "Preload LUT",
-        "desc": "Triggered preload images will display with this LUT",
+        "name": "预加载 LUT",
+        "desc": "触发的预加载图像将使用此 LUT 显示",
         "type": "select",
         "options": {
-          "0": "Default",
-          "1": "No Repeats",
-          "2": "Fast No Reds",
-          "3": "Fast"
+          "0": "默认",
+          "1": "无重复",
+          "2": "快速无红色",
+          "3": "快速"
         }
       },
       {
         "key": "preload_type",
-        "name": "Preload Image type",
-        "desc": "Preload type to send to tag, for later recall, or special use",
+        "name": "预加载图像类型",
+        "desc": "发送到标签的预加载类型，用于以后调用或特殊用途",
         "type": "select",
         "options": {
-          "0": "Normal",
-          "1": "UI: Splash Screen",
-          "2": "UI: Lost connection",
-          "3": "UI: AP Found",
-          "4": "UI: No AP Found",
-          "5": "UI: Long Term Sleep",
-          "15": "Slideshow image",
-          "16": "Wake: Button 1",
-          "17": "Wake: Button 2",
-          "29": "Wake: GPIO",
-          "30": "Wake: NFC"
+          "0": "正常",
+          "1": "UI：启动屏幕",
+          "2": "UI：连接丢失",
+          "3": "UI：找到 AP",
+          "4": "UI：未找到 AP",
+          "5": "UI：长期睡眠",
+          "15": "幻灯片图像",
+          "16": "唤醒：按钮 1",
+          "17": "唤醒：按钮 2",
+          "29": "唤醒：GPIO",
+          "30": "唤醒：NFC"
         }
       }
     ]
   },
   {
     "id": 12,
-    "name": "Remote content",
-    "desc": "Content is generated by a different Access Point"
+    "name": "远程内容",
+    "desc": "内容由不同的接入点生成"
   },
   {
     "id": 13,
-    "name": "Set segments",
-    "desc": "Used for debugging. Work in progress",
+    "name": "设置段",
+    "desc": "用于调试。进行中的工作",
     "param": [
       {
         "key": "line1",
-        "name": "line 1",
+        "name": "第 1 行",
         "desc": "8888",
         "type": "text"
       },
       {
         "key": "line2",
-        "name": "line 2",
+        "name": "第 2 行",
         "desc": "88",
         "type": "text"
       },
       {
         "key": "line3",
-        "name": "line 3",
+        "name": "第 3 行",
         "desc": "8888",
         "type": "text"
       }
@@ -623,114 +623,114 @@
   },
   {
     "id": 14,
-    "name": "Set NFC URL",
-    "desc": "Send the URL to the NFC chip. The URL is transmitted to a NFC reader (like your phone) if you hold it next to the tag",
+    "name": "设置 NFC URL",
+    "desc": "将 URL 发送到 NFC 芯片。当您将其放在标签旁边时，URL 会传输到 NFC 读卡器（如您的手机）",
     "capabilities": 64,
     "properties": [ "savespace" ],
     "param": [
       {
         "key": "url",
         "name": "URL",
-        "desc": "Full URL",
+        "desc": "完整 URL",
         "type": "text"
       }
     ]
   },
   {
     "id": 17,
-    "name": "Send Command",
-    "desc": "Send a command to a tag to execute; only to be used for tests during development",
+    "name": "发送命令",
+    "desc": "向标签发送要执行的命令；仅在开发过程中用于测试",
     "param": [
       {
         "key": "cmd",
-        "name": "CMD id",
-        "desc": "Action",
+        "name": "命令 ID",
+        "desc": "操作",
         "type": "int"
       }
     ]
   },
   {
     "id": 28,
-    "name": "Set Tag Mac",
-    "desc": "Sets the tags mac-address to a specific value. Must be 16 characters, hexdecimal (8 bytes)",
+    "name": "设置标签 Mac",
+    "desc": "将标签的 mac 地址设置为特定值。必须是 16 个字符的十六进制（8 字节）",
     "param": [
       {
         "key": "mac",
         "name": "MAC",
-        "desc": "Set Mac address",
+        "desc": "设置 Mac 地址",
         "type": "text"
       }
     ]
   },
   {
     "id": 18,
-    "name": "Set Tag Config",
-    "desc": "Sets tag options. The options you see below are the default options. This may or may not match current tag settings",
+    "name": "设置标签配置",
+    "desc": "设置标签选项。您下面看到的选项是默认选项。这可能与当前标签设置不匹配",
     "param": [
       {
         "key": "fastboot",
-        "name": "Boot method",
-        "desc": "How the tag should boot, fast or normal",
+        "name": "引导方法",
+        "desc": "标签应如何引导，快速还是正常",
         "type": "select",
         "options": {
-          "0": "-Normal boot",
-          "1": "Fast boot"
+          "0": "-正常引导",
+          "1": "快速引导"
         }
       },
       {
         "key": "rfwake",
-        "name": "RF Wake",
-        "desc": "If the tag should support RF wake or not. This adds a 0.9µA current draw",
+        "name": "RF 唤醒",
+        "desc": "标签是否应支持 RF 唤醒。这会增加 0.9µA 的电流消耗",
         "type": "select",
         "options": {
-          "0": "-Disabled",
-          "1": "Enabled"
+          "0": "-禁用",
+          "1": "启用"
         }
       },
       {
         "key": "tagroaming",
-        "name": "Tag Roaming",
-        "desc": "If enabled, the tag will periodically scan for AP's and will switch to a different channel if a stronger signal is found",
+        "name": "标签漫游",
+        "desc": "如果启用，标签将定期扫描 AP，如果找到更强的信号将切换到不同的信道",
         "type": "select",
         "options": {
-          "0": "-Disabled",
-          "1": "Enabled"
+          "0": "-禁用",
+          "1": "启用"
         }
       },
       {
         "key": "tagscanontimeout",
-        "name": "Scan for AP on timeout",
-        "desc": "If a tag hasn't found an AP for an hour, should it rescan the channels for another AP?",
+        "name": "超时时扫描 AP",
+        "desc": "如果标签在一小时内找不到 AP，是否应该重新扫描信道以查找另一个 AP？",
         "type": "select",
         "options": {
-          "1": "-Enabled",
-          "0": "Disabled"
+          "1": "-启用",
+          "0": "禁用"
         }
       },
       {
         "key": "showlowbat",
-        "name": "Low Battery symbol",
-        "desc": "Should the tag display the 'low battery' symbol if the battery a voltage threshold has been reached?",
+        "name": "低电池符号",
+        "desc": "当电池达到电压阈值时，标签是否应显示'低电量'符号？",
         "type": "select",
         "options": {
-          "1": "-Enabled",
-          "0": "Disabled"
+          "1": "-启用",
+          "0": "禁用"
         }
       },
       {
         "key": "shownorf",
-        "name": "No AP symbol",
-        "desc": "Should the tag display the 'No-signal/AP' symbol if it hasn't been able to contact an AP?",
+        "name": "无 AP 符号",
+        "desc": "如果标签无法联系 AP，是否应显示'无信号/AP'符号？",
         "type": "select",
         "options": {
-          "1": "-Enabled",
-          "0": "Disabled"
+          "1": "-启用",
+          "0": "禁用"
         }
       },
       {
         "key": "lowvoltage",
-        "name": "Low voltage threshold",
-        "desc": "Below what voltage should the tag display the 'low bat' symbol?",
+        "name": "低电压阈值",
+        "desc": "标签在什么电压以下应显示'低电量'符号？",
         "type": "select",
         "options": {
           "2600": "-2.6v",
@@ -742,11 +742,11 @@
       },
       {
         "key": "fixedchannel",
-        "name": "Fixed Channel",
-        "desc": "What channel should the tag initially join?",
+        "name": "固定信道",
+        "desc": "标签最初应加入的信道是什么？",
         "type": "chanselect",
         "chans": {
-          "0": "-Auto",
+          "0": "-自动",
           "11": "11",
           "15": "15",
           "20": "20",
@@ -755,7 +755,7 @@
           "27": "27"
         },
         "subchans": {
-          "0": "-Auto",
+          "0": "-自动",
           "100": "100",
           "101": "101",
           "102": "102",
@@ -774,21 +774,21 @@
   },
   {
     "id": 5,
-    "name": "Firmware update",
-    "desc": "To update tag firmware. This is for developers only! Instead, please use the 'auto update' button (click the little triangle below) to auto download and flash the latest firmware. If you proceed in here anyway: make sure you send the right .bin file. You can brick your tag if you send a wrong file (in that case, you can only revive it using a tag flasher). There is NO protection against a wrongly uploaded file.",
+    "name": "固件更新",
+    "desc": "用于更新标签固件。这仅供开发人员使用！相反，请使用'自动更新'按钮（点击下方的小三角形）自动下载和刷新最新固件。如果您继续在这里进行：请确保发送正确的 .bin 文件。如果发送错误的文件，您可能会损坏标签（在这种情况下，您只能使用标签刷写器恢复）。没有对错误上传文件的保护。",
     "param": [
       {
         "key": "filename",
-        "name": "Filename",
-        "desc": "Local file on littlefs partition",
+        "name": "文件名",
+        "desc": "littlefs 分区上的本地文件",
         "type": "binfile"
       }
     ]
   },
   {
     "id": 29,
-    "name": "Current Time",
-    "desc": "Displays the current time on the tag, only rarely supported even if shown here! It uses a fast LUT when possible otherwise a full refresh which is not very battery friendly and will anoy by flickering every minute",
+    "name": "当前时间",
+    "desc": "在标签上显示当前时间，即使显示在这里也很少支持！它尽可能使用快速 LUT，否则进行完整刷新，这不太省电，且会每分钟闪烁一次",
     "param": [
     ]
   }

@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
-	<title>Open EPaper Link Access Point</title>
+	<title>Open EPaper Link 接入点</title>
 	<script src="main.js?2.74" defer></script>
 	<script src="g5decoder.js?2.74"></script>
 	<link rel="stylesheet" href="main.css?2.74" type="text/css" />
@@ -17,23 +17,23 @@
 
 <body>
 	<header>
-		<div class="logo">Open EPaper Link Access Point</div>
+		<div class="logo">Open EPaper Link 接入点</div>
 		<nav>
 			<div>
 				<!-- tabs -->
 				<div class="tab-container">
-					<div class="tablinks material-symbols-outlined" data-target="hometab" title="Dashboard">home</div>
-					<div class="tablinks material-symbols-outlined" data-target="tagtab" title="Tags">sell</div>
-					<div class="tablinks material-symbols-outlined" data-target="aptab" title="Access Points">cell_tower</div>
-					<!--<div class="tablinks material-symbols-outlined" data-target="templatetab" title="Templates">browse</div>-->
-					<div class="tablinks material-symbols-outlined" data-target="flashtab" title="Tag flasher" style="display:none;">flash_on</div>
-					<div class="tablinks material-symbols-outlined" data-target="configtab" title="Settings">settings</div>
-					<div class="tablinks material-symbols-outlined" data-target="logtab" title="Logging">text_snippet</div>
-					<button id="theme-toggle" class="theme-toggle-btn material-symbols-outlined" title="Toggle Theme">light_mode</button>
+					<div class="tablinks material-symbols-outlined" data-target="hometab" title="概览">home</div>
+					<div class="tablinks material-symbols-outlined" data-target="tagtab" title="标签">sell</div>
+					<div class="tablinks material-symbols-outlined" data-target="aptab" title="接入点">cell_tower</div>
+					<!--<div class="tablinks material-symbols-outlined" data-target="templatetab" title="模板">browse</div>-->
+					<div class="tablinks material-symbols-outlined" data-target="flashtab" title="标签刷写" style="display:none;">flash_on</div>
+					<div class="tablinks material-symbols-outlined" data-target="configtab" title="设置">settings</div>
+					<div class="tablinks material-symbols-outlined" data-target="logtab" title="日志">text_snippet</div>
+					<button id="theme-toggle" class="theme-toggle-btn material-symbols-outlined" title="切换主题">light_mode</button>
 				</div>
 				<!-- /tabs -->
 				<div><span id="runstate"></div>
-				<div><span id="apstatecolor" style="font-size: 18px; vertical-align: bottom;" class="material-symbols-outlined">hourglass</span> <span id="apstate">loading</span></div>
+				<div><span id="apstatecolor" style="font-size: 18px; vertical-align: bottom;" class="material-symbols-outlined">hourglass</span> <span id="apstate">加载中</span></div>
 				<div><a href="/edit" target="littlefs" class="filebutton material-symbols-outlined">folder_open</a>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 							hourglass
 						</td>
 						<td id="dashboardStatus" colspan="2">
-							initialising...
+							初始化中...
 						</td>
 					</tr>
 					<tr onclick="setFilterAndShow('')">
@@ -59,7 +59,7 @@
 							sell
 						</td>
 						<td>
-							tags
+							标签
 						</td>
 						<td id="dashboardTagCount" style="color:#77239e">
 							0
@@ -70,7 +70,7 @@
 							hourglass_empty
 						</td>
 						<td>
-							pending data
+							待处理数据
 						</td>
 						<td id="dashboardPending" style="color:#235f9e">
 							0
@@ -81,7 +81,7 @@
 							battery_low
 						</td>
 						<td>
-							low battery
+							低电量
 						</td>
 						<td id="dashboardLowBatt" style="color:#9e9223">
 							0
@@ -92,7 +92,7 @@
 							signal_disconnected
 						</td>
 						<td>
-							timeout
+							超时
 						</td>
 						<td id="dashboardTimeout" style="color:#9e2323">
 							0
@@ -104,7 +104,7 @@
 							cell_tower
 						</td>
 						<td>
-							access points
+							接入点
 						</td>
 						<td id="dashboardApCount" style="color:#239f26">
 
@@ -116,56 +116,56 @@
 
 			<div id="tagtab" class="tabcontent">
 				<div class="tagheader">
-					<h3>Currently active tags</h3>
+					<h3>当前活跃标签</h3>
 					<div id="activefilter"></div><button class="material-symbols-outlined" id="toggleFilters">filter_alt</button>
 				</div>
 				<div id="filterOptions">
 					<div>
-						<div>group by</div>
+						<div>分组依据</div>
 						<div>
-							<input type="radio" name="group" value="" id="rnone"><label for="rnone">None</label>
+							<input type="radio" name="group" value="" id="rnone"><label for="rnone">无</label>
 						</div>
 						<div>
-							<input type="radio" name="group" value="model" id="rtagtype"><label for="rtagtype">Tag model</label>
+							<input type="radio" name="group" value="model" id="rtagtype"><label for="rtagtype">标签型号</label>
 						</div>
 						<div>
-							<input type="radio" name="group" value="contentmode" id="rcontent"><label for="rcontent">Content</label>
+							<input type="radio" name="group" value="contentmode" id="rcontent"><label for="rcontent">内容</label>
 						</div>
 						<div>
-							<input type="radio" name="group" value="data-channel" id="rchannel"><label for="rchannel">Channel</label>
-						</div>
-					</div>
-					<div>
-						<div>sort by</div>
-						<div>
-							<input type="radio" name="sort" value="alias" id="ralias" checked><label for="ralias">Alias</label>
-						</div>
-						<div>
-							<input type="radio" name="sort" value="mac" id="rmac"><label for="rmac">Mac</label>
-						</div>
-						<div>
-							<input type="radio" name="sort" value="data-lastseen" id="rlastseen"><label for="rlastseen">Last seen</label>
-						</div>
-						<div>
-							<input type="radio" name="sort" value="data-nextupdate" id="rnext"><label for="rnext">Next update</label>
+							<input type="radio" name="group" value="data-channel" id="rchannel"><label for="rchannel">频道</label>
 						</div>
 					</div>
 					<div>
-						<div>filter</div>
+						<div>排序依据</div>
 						<div>
-							<input type="checkbox" name="filter" value="local" id="rlocal"><label for="rlocal">local</label>
+							<input type="radio" name="sort" value="alias" id="ralias" checked><label for="ralias">别名</label>
 						</div>
 						<div>
-							<input type="checkbox" name="filter" value="remote" id="rremote"><label for="rremote">remote</label>
+							<input type="radio" name="sort" value="mac" id="rmac"><label for="rmac">MAC</label>
 						</div>
 						<div>
-							<input type="checkbox" name="filter" value="inactive" id="rinactive"><label for="rinactive">timed out</label>
+							<input type="radio" name="sort" value="data-lastseen" id="rlastseen"><label for="rlastseen">最后上线</label>
 						</div>
 						<div>
-							<input type="checkbox" name="filter" value="pending" id="rpending"><label for="rpending">pending</label>
+							<input type="radio" name="sort" value="data-nextupdate" id="rnext"><label for="rnext">下次更新</label>
+						</div>
+					</div>
+					<div>
+						<div>筛选</div>
+						<div>
+							<input type="checkbox" name="filter" value="local" id="rlocal"><label for="rlocal">本地</label>
 						</div>
 						<div>
-							<input type="checkbox" name="filter" value="lowbatt" id="rlowbatt"><label for="rlowbatt">low battery</label>
+							<input type="checkbox" name="filter" value="remote" id="rremote"><label for="rremote">远程</label>
+						</div>
+						<div>
+							<input type="checkbox" name="filter" value="inactive" id="rinactive"><label for="rinactive">超时</label>
+						</div>
+						<div>
+							<input type="checkbox" name="filter" value="pending" id="rpending"><label for="rpending">待处理</label>
+						</div>
+						<div>
+							<input type="checkbox" name="filter" value="lowbatt" id="rlowbatt"><label for="rlowbatt">低电量</label>
 						</div>
 					</div>
 				</div>
@@ -182,9 +182,9 @@
 						<div class="nextcheckin"></div>
 						<div class="nextupdate"></div>
 						<div class="corner">
-							<div class="waitingicon" title="New content is scheduled to be generated (as soon as possible, or shortly before the next expected checkin time)">&#9203;</div>
-							<div class="pendingicon" title="A new message is waiting for the tag to pick up">&circlearrowright;</div>
-							<div class="warningicon" title="This tag has not been seen for a long time">&#9888;
+							<div class="waitingicon" title="新内容已计划生成（尽快，或在预计下次签到前不久）">&#9203;</div>
+							<div class="pendingicon" title="有新消息等待标签接收">&circlearrowright;</div>
+							<div class="warningicon" title="该标签长时间未上线">&#9888;
 							</div>
 						</div>
 					</div>
@@ -195,19 +195,19 @@
 				<div class="tabheader">
 					<div><img id="clearlog" src="data:image/gif;base64,R0lGODlhEAAQAPMAANXV1e3t7d/f39HR0dvb2/Hx8dTU1OLi4urq6mZmZpmZmf///wAAAAAAAAAAAAAAACH5BAEAAAwALAAAAAAQABAAAARBkMlJq71Yrp3ZXkr4WWCYnOZSgQVyEMYwJCq1nHhe20qgCAoA7QLyAYU7njE4JPV+zOSkCEUSFbmTVPPpbjvgTAQAOw==
 				"></div>
-					<div><input type="checkbox" id="showdebug" value="1"><label for="showdebug">Show all websocket traffic</label></div>
+					<div><input type="checkbox" id="showdebug" value="1"><label for="showdebug">显示所有 WebSocket 通信</label></div>
 				</div>
 				<ul id="messages" class="messages">
 				</ul>
 			</div>
 
 			<div id="aptab" class="tabcontent">
-				<h3>Active access points</h3>
+				<h3>活跃接入点</h3>
 
 				<div id="aplist">
 					<div id="apcard" class="apcard">
 						<p class="apip">194.109.6.66</p>
-						<p class="apalias">AP kitchen</p>
+						<p class="apalias">厨房 AP</p>
 						<div>
 							<span class="material-symbols-outlined">
 								sell
@@ -219,54 +219,53 @@
 							<span class="apchannel">25</span>
 						</div>
 						<p class="apswversion">
-							fetching software version...
+							获取软件版本中...
 						</p>
 					</div>
 				</div>
 			</div>
 
 			<div id="templatetab" class="tabcontent">
-				Work in progress...
+				进展中...
 			</div>
 
 			<div id="flashtab" class="tabcontent">
-				<h3>Tag flasher</h3>
+				<h3>标签刷写器</h3>
 				<div>
 					<div class="flashCol1">
-						<h4>Mode</h4>
+						<h4>模式</h4>
 						<div style="max-width:400px;">
-							<button class="button" id="doAutoflash">Automatic flash</button><br><br>
-							With automatic flash, a tag is flashed to the latest firmware as soon as you connect it.
-							It sets the mac automatically, tries to recognize the type, and starts flashing. Currently, Solum M2 tags only.
+							<button class="button" id="doAutoflash">自动刷写</button><br><br>
+							使用自动刷写，当您连接标签时，会立即将其刷写到最新固件。它会自动设置 MAC，尝试识别类型并开始刷写。目前仅支持 Solum M2 标签。
 							<br><br>
-							<button class="button" id="doUSBflash">Command line</button><br><br>
-							Using <a href="https://github.com/OpenEPaperLink/OpenEPaperLink/tree/master/Tag_Flasher#oepl-flasherpy" target="_blank">OEPL-Flasher.py</a>, you have full control over the flashing of the tag.<br>
-							Use the --ip argument to connect to the flasher.<br>
+							<button class="button" id="doUSBflash">命令行</button><br><br>
+							使用 <a href="https://github.com/OpenEPaperLink/OpenEPaperLink/tree/master/Tag_Flasher#oepl-flasherpy" target="_blank">OEPL-Flasher.py</a>，您可以完全控制标签的刷写。<br>
+							使用 --ip 参数连接到刷写器。<br>
 							<br>
-							Usage:<br>
+							用法：<br>
 							<pre style="text-wrap: wrap;">
 OEPL-Flasher.py [-h] [-t IP] [-f] [-i] [-eep] [-n] [-z]
 [--pt] [--exit] [{read,write,autoflash,debug}] [filename]
 
-{read,write,autoflash,debug} Command to execute
-filename Filename for read/write commands
+{read,write,autoflash,debug} 要执行的命令
+filename 读写命令的文件名
 
-options:
--h, --help show this help message and exit
--t IP, --ip IP IP Address to use
--f, --flash Write to the flash
--i, --infopage Write to the infopage/UICR
--eep, --eeprom EEPROM operations
--n, --nrf82511 nRF82511 programming
--z, --zbs243 ZBS243 programming
---pt, --passthrough Enters serial passthrough for debug output after flashing
---exit Exit eeprom loader after sending data
+选项：
+-h, --help 显示帮助信息并退出
+-t IP, --ip IP 要使用的 IP 地址
+-f, --flash 写入闪存
+-i, --infopage 写入信息页/UICR
+-eep, --eeprom EEPROM 操作
+-n, --nrf82511 nRF82511 编程
+-z, --zbs243 ZBS243 编程
+--pt, --passthrough 刷写后进入串口透传以输出调试信息
+--exit 发送数据后退出 EEPROM 加载器
 							</pre>
 						</div>
-						<h4>Other actions</h4>
+						<h4>其他操作</h4>
 						<div>
-							<button class="button" id="doPowerOn">Power on</button><br><br>
-							<button class="button" id="doPowerOff">Power off</button><br><br>
+							<button class="button" id="doPowerOn">开机</button><br><br>
+							<button class="button" id="doPowerOff">关机</button><br><br>
 						</div>
 					</div>
 					<div class="console" id="flashconsole"></div>
@@ -274,15 +273,15 @@ options:
 			</div>
 
 			<div id="configtab" class="tabcontent">
-				<h3>Access Point config</h3>
+				<h3>接入点配置</h3>
 				<p>
-					<label for="apcfgalias">Alias</label>
+					<label for="apcfgalias">别名</label>
 					<input id="apcfgalias" type="text">
 				</p>
 				<p>
-					<label for="apcfgchid">IEEE 802.15.4 channel</label>
+					<label for="apcfgchid">IEEE 802.15.4 频道</label>
 					<select id="apcfgchid">
-						<option value="0" selected>auto</option>
+						<option value="0" selected>自动</option>
 						<option value="11">11</option>
 						<option value="15">15</option>
 						<option value="20">20</option>
@@ -291,35 +290,35 @@ options:
 						<option value="27">27</option>
 					</select>
 				</p>
-				<p title="Enable SubGhz support and select channel. This requires an AP that has an optional CC1101 SubGhz radio module attached.">
-					<label for="apcfgsubgigchid">SubGhz channel</label>
+				<p title="启用 SubGhz 支持并选择频道。需要接入点安装有可选的 CC1101 SubGhz 无线模块。">
+					<label for="apcfgsubgigchid">SubGhz 频道</label>
 					<select id="apcfgsubgigchid">
-						<option value="0" selected>disabled</option>
-						<option value="100">100 - 864.000 Mhz (Europe, etc)</option>
-						<option value="101">101 - 865.006 Mhz (Europe, etc)</option>
-						<option value="102">102 - 866.014 Mhz (Europe, etc)</option>
-						<option value="103">103 - 867.020 Mhz (Europe, etc)</option>
-						<option value="104">104 - 868.027 Mhz (Europe, etc)</option>
-						<option value="105">105 - 869.034 Mhz (Europe, etc)</option>
-						<option value="200">200 - 903.000 Mhz (US, etc)</option>
-						<option value="201">201 - 907.027 Mhz (US, etc)</option>
-						<option value="202">202 - 911.054 Mhz (US, etc)</option>
-						<option value="203">203 - 915.083 Mhz (US, etc)</option>
-						<option value="204">204 - 919.110 Mhz (US, etc)</option>
-						<option value="205">205 - 923.138 Mhz (US, etc)</option>
+						<option value="0" selected>禁用</option>
+						<option value="100">100 - 864.000 MHz (欧洲等)</option>
+						<option value="101">101 - 865.006 MHz (欧洲等)</option>
+						<option value="102">102 - 866.014 MHz (欧洲等)</option>
+						<option value="103">103 - 867.020 MHz (欧洲等)</option>
+						<option value="104">104 - 868.027 MHz (欧洲等)</option>
+						<option value="105">105 - 869.034 MHz (欧洲等)</option>
+						<option value="200">200 - 903.000 MHz (美国等)</option>
+						<option value="201">201 - 907.027 MHz (美国等)</option>
+						<option value="202">202 - 911.054 MHz (美国等)</option>
+						<option value="203">203 - 915.083 MHz (美国等)</option>
+						<option value="204">204 - 919.110 MHz (美国等)</option>
+						<option value="205">205 - 923.138 MHz (美国等)</option>
 					</select>
 				</p>
-				<p title="Enable Bluetooth (BLE) support. Only enable this if you have BLE capable tags. Changing this value requires a reboot to take effect.">
-					<label for="apcfgble">Bluetooth</label>
+				<p title="启用蓝牙 (BLE) 支持。仅在您有支持 BLE 的标签时启用。更改此值需要重启才能生效。">
+					<label for="apcfgble">蓝牙</label>
 					<select id="apcfgble">
-						<option value="1">enabled</option>
-						<option value="0" selected>disabled</option>
+						<option value="1">启用</option>
+						<option value="0" selected>禁用</option>
 					</select>
 				</p>
 				<p>
-					<label for="apcfgledbrightness">RGB LED brightness</label>
+					<label for="apcfgledbrightness">RGB LED 亮度</label>
 					<select id="apcfgledbrightness">
-						<option value="0">off</option>
+						<option value="0">关闭</option>
 						<option value="15">10%</option>
 						<option value="31">25%</option>
 						<option value="127" selected>50%</option>
@@ -328,9 +327,9 @@ options:
 					</select>
 				</p>
 				<p>
-					<label for="apcfgtftbrightness">TFT brightness</label>
+					<label for="apcfgtftbrightness">TFT 亮度</label>
 					<select id="apcfgtftbrightness">
-						<option value="0">off</option>
+						<option value="0">关闭</option>
 						<option value="20">10%</option>
 						<option value="64">25%</option>
 						<option value="128">50%</option>
@@ -339,80 +338,71 @@ options:
 					</select>
 				</p>
 				<p>
-					<label for="apcfglanguage">Content language</label>
+					<label for="apcfglanguage">内容语言</label>
 					<select id="apcfglanguage">
-						<option value="0" selected>EN English</option>
-						<option value="1">NL Nederlands</option>
-						<option value="2">DE Deutsch</option>
-						<option value="4">FR Français</option>
-						<option value="3">NO Norsk</option>
-						<option value="5">CZ Čeština</option>
-						<option value="6">SK Slovenčina</option>
-						<option value="7">PL Polski</option>
-						<option value="8">ES Español</option>
-						<option value="9">SV Svenska</option>
-						<option value="10">DK Dansk</option>
-						<option value="11">ET Eesti</option>
+						<option value="0" selected>EN 英语</option>
+						<option value="1">NL 荷兰语</option>
+						<option value="2">DE 德语</option>
+						<option value="4">FR 法语</option>
+						<option value="3">NO 挪威语</option>
+						<option value="5">CZ 捷克语</option>
+						<option value="6">SK 斯洛伐克语</option>
+						<option value="7">PL 波兰语</option>
+						<option value="8">ES 西班牙语</option>
+						<option value="9">SV 瑞典语</option>
+						<option value="10">DK 丹麦语</option>
+						<option value="11">ET 爱沙尼亚语</option>
 					</select>
 				</p>
-				<p title="Depending on the content, a tag can sleep for
-			longer periods when no updates are expected
-			(like a date display). This setting specifies
-			the maximum sleep time.">
-					<label for="apclatency">Maximum sleep</label>
+				<p title="根据显示内容，当没有更新预期时（例如日期显示），标签可以休眠更长时间。此设置指定最大休眠时间。">
+					<label for="apclatency">最大休眠时间</label>
 					<select id="apclatency">
-						<option value="0" selected>shortest (40 sec)</option>
-						<option value="5">5 minutes</option>
-						<option value="10">10 minute</option>
-						<option value="30">30 minutes</option>
-						<option value="60">1 hour</option>
+						<option value="0" selected>最短 (40秒)</option>
+						<option value="5">5 分钟</option>
+						<option value="10">10 分钟</option>
+						<option value="30">30 分钟</option>
+						<option value="60">1 小时</option>
 					</select>
 				</p>
-				<p title="If connected to the website, don't sleep extra.
-			Latency will be around 40 seconds.">
-					<label for="apcpreventsleep">Shorten latency during config</label>
+				<p title="连接到网页时，不进行额外休眠。延迟约为 40 秒。">
+					<label for="apcpreventsleep">配置时缩短延迟</label>
 					<select id="apcpreventsleep">
-						<option value="0">no</option>
-						<option value="1" selected>yes</option>
+						<option value="0">否</option>
+						<option value="1" selected>是</option>
 					</select>
 				</p>
 				<p
-				   title="Stops updates at night, and put the tags to sleep.
-			During the configured night time, this overrides the maximum sleep time.">
-					<label for="apcnight1">No updates between</label>
+				   title="夜间停止更新，并使标签进入休眠。在配置的夜间时段内，此设置将覆盖最大休眠时间。">
+					<label for="apcnight1">不更新时间段</label>
 					<select id="apcnight1"></select>
-					<span style="align-self:center;">and</span>
+					<span style="align-self:center;">和</span>
 					<select id="apcnight2"></select>
 				</p>
-				<p title="Reboots every night at 3:56 for stability">
-					<label for="apcnightlyreboot">Nightly reboot</label>
+				<p title="每天凌晨 3:56 重启以保持稳定">
+					<label for="apcnightlyreboot">每晚重启</label>
 					<select id="apcnightlyreboot">
-						<option value="0">no</option>
-						<option value="1" selected>yes</option>
+						<option value="0">否</option>
+						<option value="1" selected>是</option>
 					</select>
 				</p>
-				<p title="Turn off preview images on the webpage if you want to manage many tags,
-			to save file system space">
-					<label for="apcpreview">Preview images</label>
+				<p title="如果您需要管理大量标签，关闭网页上的预览图像以节省文件系统空间">
+					<label for="apcpreview">预览图片</label>
 					<select id="apcpreview">
-						<option value="1" selected>yes</option>
-						<option value="0">no</option>
+						<option value="1" selected>是</option>
+						<option value="0">否</option>
 					</select>
 				</p>
 				<p
-				   title="* Work in progress * When locking the tag inventory, the AP will only
-			show tags that are already in the database.	For now, the AP will still keep answering
-			new tags, because that needs to be fixed in the radio firmware.
-			This will probably change in the future.">
-					<label for="apclock">Lock tag inventory</label>
+				   title="* 进行中 * 锁定标签清单后，AP 将仅显示数据库中已有的标签。目前，AP 仍会响应新标签，因为需要在无线固件中修复。将来可能会改变。">
+					<label for="apclock">锁定标签清单</label>
 					<select id="apclock">
-						<option value="0" selected>no</option>
-						<option value="1">locked: don't add new tags</option>
-						<option value="2">learning: only add new tags that are booting</option>
+						<option value="0" selected>否</option>
+						<option value="1">锁定：不添加新标签</option>
+						<option value="2">学习模式：仅添加正在启动的新标签</option>
 					</select>
 				</p>
-				<p title="Wifi transmit power">
-					<label for="apcwifipower">Wifi power</label>
+				<p title="WiFi 发射功率">
+					<label for="apcwifipower">WiFi 功率</label>
 					<select id="apcwifipower">
 						<option value="78">19.5 dBm</option>
 						<option value="76">19.0 dBm</option>
@@ -427,85 +417,83 @@ options:
 						<option value="8">2.0 dBm</option>
 					</select>
 				</p>
-				<p title="Your local time zone">
-					<label for="apctimezone">Local time zone</label>
+				<p title="您的本地时区">
+					<label for="apctimezone">本地时区</label>
 					<select id="apctimezone">
-						<optgroup label="Europe">
-							<option value="CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00" selected>Central European
-								Time</option>
-							<option value="EET-2EEST-3,M3.5.0/03:00:00,M10.5.0/04:00:00">Athens, Greece</option>
-							<option value="GMT+0IST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">Dublin, Ireland</option>
-							<option value="EET-2EEST-3,M3.5.0/03:00:00,M10.5.0/04:00:00">Helsinki, Finland</option>
-							<option value="WET-0WEST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">Lisbon, Portugal</option>
-							<option value="GMT+0BST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">London, Great Britain
-							</option>
-							<option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Kyiv, Ukraine</option>
+						<optgroup label="欧洲">
+							<option value="CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00" selected>中欧时间</option>
+							<option value="EET-2EEST-3,M3.5.0/03:00:00,M10.5.0/04:00:00">希腊雅典</option>
+							<option value="GMT+0IST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">爱尔兰都柏林</option>
+							<option value="EET-2EEST-3,M3.5.0/03:00:00,M10.5.0/04:00:00">芬兰赫尔辛基</option>
+							<option value="WET-0WEST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">葡萄牙里斯本</option>
+							<option value="GMT+0BST-1,M3.5.0/01:00:00,M10.5.0/02:00:00">英国伦敦</option>
+							<option value="EET-2EEST,M3.5.0/3,M10.5.0/4">乌克兰基辅</option>
 						</optgroup>
-						<optgroup label="USA / Canada">
-							<option value="HAW10">Hawaii Time</option>
-							<option value="AKST9AKDT">Alaska Time</option>
-							<option value="PST8PDT">Pacific Time</option>
-							<option value="MST7MDT">Mountain Time</option>
-							<option value="MST7">Arizona, no DST</option>
-							<option value="CST6CDT">Central Time</option>
-							<option value="EST5EDT">Eastern Time</option>
+						<optgroup label="美国/加拿大">
+							<option value="HAW10">夏威夷时间</option>
+							<option value="AKST9AKDT">阿拉斯加时间</option>
+							<option value="PST8PDT">太平洋时间</option>
+							<option value="MST7MDT">山地时间</option>
+							<option value="MST7">亚利桑那州，无夏令时</option>
+							<option value="CST6CDT">中部时间</option>
+							<option value="EST5EDT">东部时间</option>
 						</optgroup>
-						<optgroup label="Australia / New Zealand">
-							<option value="EST-10EDT-11,M10.5.0/02:00:00,M3.5.0/03:00:00">Melbourne, Sydney</option>
-							<option value="WST-8">Perth</option>
-							<option value="EST-10">Brisbane</option>
-							<option value="CST-9:30CDT-10:30,M10.5.0/02:00:00,M3.5.0/03:00:00">Adelaide</option>
-							<option value="CST-9:30">Darwin</option>
-							<option value="EST-10EDT-11,M10.1.0/02:00:00,M3.5.0/03:00:00">Hobart</option>
-							<option value="NZST-12NZDT-13,M9.4.0/02:00:00,M4.1.0/03:00:00">New Zealand</option>
+						<optgroup label="澳大利亚/新西兰">
+							<option value="EST-10EDT-11,M10.5.0/02:00:00,M3.5.0/03:00:00">墨尔本，悉尼</option>
+							<option value="WST-8">珀斯</option>
+							<option value="EST-10">布里斯班</option>
+							<option value="CST-9:30CDT-10:30,M10.5.0/02:00:00,M3.5.0/03:00:00">阿德莱德</option>
+							<option value="CST-9:30">达尔文</option>
+							<option value="EST-10EDT-11,M10.1.0/02:00:00,M3.5.0/03:00:00">霍巴特</option>
+							<option value="NZST-12NZDT-13,M9.4.0/02:00:00,M4.1.0/03:00:00">新西兰</option>
 						</optgroup>
-						<optgroup label="Asia">
-							<option value="JST-9">Tokyo</option>
-							<option value="WIB-7">Jakarta</option>
-							<option value="GMT+2">Jerusalem</option>
-							<option value="SGT-8">Singapore</option>
-							<option value="ULAT-8ULAST,M3.5.0/2,M9.5.0/2">Ulaanbaatar, Mongolia</option>
+						<optgroup label="亚洲">
+							<option value="JST-9">东京</option>
+							<option value="WIB-7">雅加达</option>
+							<option value="GMT+2">耶路撒冷</option>
+							<option value="SGT-8">新加坡</option>
+							<option value="ULAT-8ULAST,M3.5.0/2,M9.5.0/2">蒙古乌兰巴托</option>
 						</optgroup>
-						<optgroup label="Central and South America">
-							<option value="BRST+3BRDT+2,M10.3.0,M2.3.0">Brazil, Sao Paulo</option>
-							<option value="UTC+3">Argentina</option>
-							<option value="CST+6">Central America</option>
+						<optgroup label="中南美洲">
+							<option value="BRST+3BRDT+2,M10.3.0,M2.3.0">巴西圣保罗</option>
+							<option value="UTC+3">阿根廷</option>
+							<option value="CST+6">中美洲</option>
 						</optgroup>
 					</select>
 				</p>
-				<p title="Set to Broadcast if using a multi WiFi AP setup that does not support IGMP sniffing">
-					<label for="apcdiscovery">AP discovery method</label>
+				<p title="如果使用不支持 IGMP 侦听的多 WiFi AP 设置，请选择广播">
+					<label for="apcdiscovery">AP 发现方式</label>
 					<select id="apcdiscovery">
-						<option value="0" selected>Multicast</option>
-						<option value="1">Broadcast</option>
+						<option value="0" selected>组播</option>
+						<option value="1">广播</option>
 					</select>
 				</p>
-				<p title="Show a timestamp on the screen when the tag is updated">
-					<label for="apcshowtimestamp">Enable timestamp</label>
+				<p title="在标签更新时在屏幕上显示时间戳">
+					<label for="apcshowtimestamp">启用时间戳</label>
 					<select id="apcshowtimestamp">
-						<option value="0" selected>no</option>
-						<option value="1">yes</option>
+						<option value="0" selected>否</option>
+						<option value="1">是</option>
 					</select>
 				</p>
 				<p>
-					<input type="button" value="Save" id="apcfgsave"><span id="apcfgmsg"></span>
+					<input type="button" value="保存" id="apcfgsave"><span id="apcfgmsg"></span>
 				</p>
-				<h3>Manage</h3>
+				<h3>管理</h3>
 				<p>
-					<button type="button" id="rebootbutton">Reboot AP</button> Saves the tagDB and instantly reboots the Access Point
-				</p>
-				<p>
-					<a href="/backup_db" id="downloadDBbutton">Download tagDB</a>
-					<input type="file" id="fileInput" /><button id="uploadButton">Restore tagDB</button> from file
+					<button type="button" id="rebootbutton">重启 AP</button> 保存标签数据库并立即重启接入点
 				</p>
 				<p>
-					<button id="restoreFromLocal" class="wifibutton">Restore tagDB</button> Restores the tagDB with the auto-saved version by the browser.
+					<a href="/backup_db" id="downloadDBbutton">下载 tagDB</a>
+					<input type="file" id="fileInput" /><button id="uploadButton">恢复 tagDB</button> 从文件
 				</p>
 				<p>
-					<button type="button" id="updatebutton" class="tablinks" data-target="updatetab" title="Update">Update</button> Manage firmware of the ESP32
+					<button id="restoreFromLocal" class="wifibutton">恢复 tagDB</button> 使用浏览器自动保存的版本恢复 tagDB。
 				</p>
 				<p>
-					<a href="/setup" target="setup" class="wifibutton">WiFi config</a> Opens a new window with WiFi	config options
+					<button type="button" id="updatebutton" class="tablinks" data-target="updatetab" title="更新">更新</button> 管理 ESP32 固件
+				</p>
+				<p>
+					<a href="/setup" target="setup" class="wifibutton">WiFi 配置</a> 打开包含 WiFi 配置选项的新窗口
 				</p>
 				<p>
 					<br>
@@ -515,40 +503,40 @@ options:
 			</div>
 
 			<div id="updatetab" class="tabcontent">
-				<h3>Firmware Updates</h3>
+				<h3>固件更新</h3>
 				<div>
 					<div class="updateCol1">
 						<div id="easyupdate"></div>
-						<h4>Repository</h4>
+						<h4>仓库</h4>
 						<div>
-							<label for="repo">Repo</label><input type="text" id="repo" value="">
-							<button id="selectRepo">Change</button><br>
+							<label for="repo">仓库</label><input type="text" id="repo" value="">
+							<button id="selectRepo">更改</button><br>
 							<p id="repoWarning" style="display:none" class="warning">
-								To change to this repository, select and confirm the build environment.
+								要切换到此仓库，请选择并确认构建环境。
 							</p>
-							<label for="environment">Environment</label><input type="text" id="environment" readonly value="">
-							<button id="confirmSelectRepo">Confirm</button><button id="cancelSelectRepo">Cancel</button>
+							<label for="environment">环境</label><input type="text" id="environment" readonly value="">
+							<button id="confirmSelectRepo">确认</button><button id="cancelSelectRepo">取消</button>
 						</div>
-						<h4>Releases</h4>
-                        To update to the latest version, use the big 'update now' button if it is shown on top of this screen.<br>
-                        To up/downgrade to other versions: for the smoothest experience, first update the ESP32 part and<br>
-                        without rebooting, update the filesystem, then reboot the AP and reload the webpage.<br>
+						<h4>发布版本</h4>
+                        要更新到最新版本，如果屏幕顶部显示“立即更新”按钮，请使用该按钮。<br>
+                        要升级/降级到其他版本：为了获得最流畅的体验，请先更新 ESP32 部分，<br>
+                        然后在不重启的情况下更新文件系统，之后重启 AP 并重新加载网页。<br>
 						<div id="releasetable" class="releasetable"></div>
 						<h4 id="radio_release_title"></h4>
 						<div id="radio_releasetable" class="releasetable"></div>
 						<div id="radio_releasetable1" class="releasetable"></div>
-						<h4>Other actions</h4>
+						<h4>其他操作</h4>
 						<div>
 							<p id="rollbackOption" style="display:none">
-								<button type="button" id="rollbackBtn">Rollback to previous firmware</button>
+								<button type="button" id="rollbackBtn">回滚到上一个固件</button>
 							</p>
 							<p id="updateC6Option" style="display:none;">
-								<button type="button" id="updateC6Btn">Update ESP32-C6</button>
-								<input type="checkbox" value="1" checked id="c6download">download latest version
+								<button type="button" id="updateC6Btn">更新 ESP32-C6</button>
+								<input type="checkbox" value="1" checked id="c6download">下载最新版本
 							</p>
 							<p id="updateTagtypeOption">
-								<button type="button" id="updateTagtypeBtn">Update tagtype definitions</button>
-								<input type="checkbox" value="1" id="tagtype_clean">remove unused tagtype files
+								<button type="button" id="updateTagtypeBtn">更新标签类型定义</button>
+								<input type="checkbox" value="1" id="tagtype_clean">删除未使用的标签类型文件
 							</p>
 						</div>
 					</div>
@@ -574,52 +562,52 @@ options:
 		<div class="closebtn2">&#10006;</div>
 		<h3 id="cfgmac">00000000</h3>
 		<p>
-			<label for="cfgalias">Alias</label>
+			<label for="cfgalias">别名</label>
 			<input id="cfgalias" type="text">
 		</p>
 		<p>
-			<label for="cfgcontent">Content</label>
+			<label for="cfgcontent">内容</label>
 			<select id="cfgcontent" onchange="contentselected()">
 			</select>
 			<button id="paintbutton"><i>A</i>&#128396;</button>
 		</p>
 		<div id="customoptions"></div>
 		<div id="advancedoptions" style="height: 0px;">
-			<p>Advanced options</p>
+			<p>高级选项</p>
 			<p>
-				<label for="cfgrotate">Rotate image</label>
+				<label for="cfgrotate">旋转图像</label>
 				<select id="cfgrotate">
-					<option value="0">0 degrees</option>
+					<option value="0">0 度</option>
 				</select>
 			</p>
 			<p>
 				<label for="cfglut">LUT</label>
 				<select id="cfglut">
-					<option value="0">auto</option>
+					<option value="0">自动</option>
 				</select>
 			</p>
 			<p>
-				<label for="cfginvert">Invert colors</label>
+				<label for="cfginvert">反转颜色</label>
 				<select id="cfginvert">
-					<option value="0">off</option>
-					<option value="1">on</option>
+					<option value="0">关闭</option>
+					<option value="1">开启</option>
 				</select>
 			</p>
 			<p class="tagbuttons">
-				<button id="cfgrefresh">force refresh</button>
-				<button id="cfgclrpending">clear pending</button>
-				<button id="cfgtagreboot">reboot</button>
-				<button id="cfgscan">scan</button>
-				<button id="cfgdeepsleep">deep sleep</button>
-				<button id="cfgreset">reset settings</button>
-				<button id="cfgautoupdate">auto update</button>
-				<button id="cfgdelete" title="remove"><img
+				<button id="cfgrefresh">强制刷新</button>
+				<button id="cfgclrpending">清除待处理</button>
+				<button id="cfgtagreboot">重启</button>
+				<button id="cfgscan">扫描</button>
+				<button id="cfgdeepsleep">深度休眠</button>
+				<button id="cfgreset">重置设置</button>
+				<button id="cfgautoupdate">自动更新</button>
+				<button id="cfgdelete" title="删除"><img
 						 src="data:image/gif;base64,R0lGODlhEAAQAPMAANXV1e3t7d/f39HR0dvb2/Hx8dTU1OLi4urq6mZmZpmZmf///wAAAAAAAAAAAAAAACH5BAEAAAwALAAAAAAQABAAAARBkMlJq71Yrp3ZXkr4WWCYnOZSgQVyEMYwJCq1nHhe20qgCAoA7QLyAYU7njE4JPV+zOSkCEUSFbmTVPPpbjvgTAQAOw==	"></button>
 			</p>
 		</div>
 		<p id="savebar">
-			<span><input type="button" value="Save" id="cfgsave"></span>
-			<span id="cfgmore" title="advanced options">&#x25BC;</span>
+			<span><input type="button" value="保存" id="cfgsave"></span>
+			<span id="cfgmore" title="高级选项">&#x25BC;</span>
 		</p>
 	</dialog>
 

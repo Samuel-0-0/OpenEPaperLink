@@ -136,7 +136,7 @@ const fetchAndPost = async (url, name, path) => {
             print(`${response.status} ${response.body}`, "red");
             errors++;
         } else {
-            print(`Firmware file downloaded`, "green");
+            print(`固件文件已下载`, "green");
         }
     } catch (error) {
         print('error: ' + error, "red");
@@ -151,13 +151,13 @@ async function checkTagFW() {
     if (response.ok) {
         const data = await response.json();
         if (data.filesize > 0) {
-            print(`File ${fwfile} found`, "green");
+            print(`文件 ${fwfile} 已找到`, "green");
         } else {
-            print(`File ${fwfile} not found. Downloading...`, "red");
+            print(`文件 ${fwfile} 未找到。正在下载...`, "red");
             await fetchAndPost("https://raw.githubusercontent.com/OpenEPaperLink/OpenEPaperLink/master/binaries/Tag/Tag_FW_Pack.bin", "Tag_FW_Pack.bin", fwfile);
         }
     } else {
-        print(`error checking file ${file.path}: ${response.status}`, "red");
+        print(`检查 ${fwfile} 文件错误： ${response.status}`, "red");
         errors++;
     }
 }

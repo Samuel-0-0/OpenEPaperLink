@@ -25,13 +25,13 @@ export async function initUpdate() {
         gShortName = "H2";
     }
     else {
-        gModuleType = "Unknown"
+        gModuleType = "未知"
     }
-    $('#radio_release_title').innerHTML = gModuleType + " Firmware";
+    $('#radio_release_title').innerHTML = gModuleType + " 固件";
 
     const response = await fetch("version.txt");
     let filesystemversion = await response.text();
-    if (!filesystemversion) filesystemversion = "unknown";
+    if (!filesystemversion) filesystemversion = "未知";
     $('#repo').value = repo;
 
     const envBox = $('#environment');
@@ -52,10 +52,10 @@ export async function initUpdate() {
     const sdata = await fetch("sysinfo")
         .then(response => {
             if (response.status != 200) {
-                print("Error fetching sysinfo: " + response.status, "red");
+                print("获取系统信息时出错: " + response.status, "red");
                 if (response.status == 404) {
-                    print("Your current firmware version is not yet capable of updating OTA.");
-                    print("Update it manually one last time.");
+                    print("您当前的固件版本尚不支持 OTA 更新。");
+                    print("请手动最后更新一次。");
                     disableButtons(true);
                 }
                 return {};
@@ -64,26 +64,26 @@ export async function initUpdate() {
             }
         })
         .catch(error => {
-            print('Error fetching sysinfo: ' + error, "red");
+            print('获取系统信息时出错: ' + error, "red");
         });
 
     if (sdata.env) {
-        print(`current env:        ${sdata.env}`);
-        print(`build date:         ${formatEpoch(sdata.buildtime)}`);
-        print(`esp32 version:      ${sdata.buildversion}`);
-        print(`filesystem version: ${filesystemversion}`);
-        print(`psram size:         ${sdata.psramsize}`);
-        print(`flash size:         ${sdata.flashsize}`);
+        print(`当前环境:            ${sdata.env}`);
+        print(`构建日期:            ${formatEpoch(sdata.buildtime)}`);
+        print(`ESP32 版本:          ${sdata.buildversion}`);
+        print(`文件系统版本:        ${filesystemversion}`);
+        print(`PSRAM 大小:          ${sdata.psramsize}`);
+        print(`闪存大小:            ${sdata.flashsize}`);
         if (gModuleType !== '') {
             let hex_ver = sdata.ap_version && !isNaN(sdata.ap_version)
                 ? ('0000' + sdata.ap_version.toString(16)).slice(-4)
-                : 'unknown';
-            print(`${gModuleType} version:   ${hex_ver}`);
+                : '未知';
+            print(`${gModuleType} 版本:     ${hex_ver}`);
         }
         print("--------------------------", "gray");
         env = apConfig.env || sdata.env;
         if (sdata.env != env) {
-            print(`Warning: you selected a build environment ${env} which is\ndifferent than the currently used ${sdata.env}.\nOnly update the firmware with a mismatched build environment if\nyou know what you're doing.`, "yellow");
+            print(`警告：您选择的构建环境 ${env} 与当前使用的 ${sdata.env} 不同。\n仅在您清楚操作的情况下，使用不匹配的构建环境更新固件。`, "yellow");
         }
         currentVer = sdata.buildversion;
         currentBuildtime = sdata.buildtime;
@@ -115,23 +115,23 @@ export async function initUpdate() {
     })
 
     if (releaseDetails.length === 0) {
-        easyupdate.innerHTML = ("No releases found.");
+        easyupdate.innerHTML = ("未找到发布版本。");
     } else {
         const release = releaseDetails[0];
         if (release?.tag_name) {
             if (release.tag_name == currentVer) {
-                easyupdate.innerHTML = `Version ${currentVer}. You are up to date`;
+                easyupdate.innerHTML = `版本 ${currentVer}。您已是最新。`;
             } else if (release.date < formatEpoch(currentBuildtime - 30 * 60)) {
-                easyupdate.innerHTML = `Your version is newer than the latest release date.<br>Are you the developer? :-)`;
+                easyupdate.innerHTML = `您的版本比最新发布日期还新。<br>您是开发者吗？:-)`;
             } else {
-                easyupdate.innerHTML = `An update from version ${currentVer} to version ${release.tag_name} is available.<button onclick="otamodule.updateAll('${release.bin_url}','${release.file_url}','${release.tag_name}')">Update now!</button>`;
+                easyupdate.innerHTML = `版本 ${currentVer} 到 ${release.tag_name} 的更新可用。<button onclick="otamodule.updateAll('${release.bin_url}','${release.file_url}','${release.tag_name}')">立即更新！</button>`;
             }
         }
     }
 
     const table = document.createElement('table');
     const tableHeader = document.createElement('tr');
-    tableHeader.innerHTML = '<th>Release</th><th>Date</th><th>Name</th><th colspan="2"><center>Update</center></th><th>Remark</th>';
+    tableHeader.innerHTML = '<th>发布版本</th><th>日期</th><th>名称</th><th colspan="2"><center>更新</center></th><th>备注</th>';
     table.appendChild(tableHeader);
 
     let rowCounter = 0;
@@ -139,13 +139,13 @@ export async function initUpdate() {
     releaseDetails.forEach(release => {
         if (rowCounter < 4 && release?.html_url) {
             const tableRow = document.createElement('tr');
-            let tablerow = `<td><a href="${release.html_url}" target="_new">${release.tag_name}</a></td><td>${release.date}</td><td>${release.name}</td><td><button type="button" onclick="otamodule.updateESP('${release.bin_url}', true)">ESP32</button></td><td><button type="button" onclick="otamodule.updateWebpage('${release.file_url}','${release.tag_name}', true)">Filesystem</button></td>`;
+            let tablerow = `<td><a href="${release.html_url}" target="_new">${release.tag_name}</a></td><td>${release.date}</td><td>${release.name}</td><td><button type="button" onclick="otamodule.updateESP('${release.bin_url}', true)">ESP32</button></td><td><button type="button" onclick="otamodule.updateWebpage('${release.file_url}','${release.tag_name}', true)">文件系统</button></td>`;
             if (release.tag_name == currentVer) {
-                tablerow += "<td>current version</td>";
+                tablerow += "<td>当前版本</td>";
             } else if (release.date < formatEpoch(currentBuildtime)) {
-                tablerow += "<td>older</td>";
+                tablerow += "<td>较旧</td>";
             } else {
-                tablerow += "<td>newer</td>";
+                tablerow += "<td>较新</td>";
             }
             tableRow.innerHTML = tablerow;
             table.appendChild(tableRow);
@@ -162,7 +162,7 @@ export async function initUpdate() {
         const table1 = document.createElement('table');
         const tableHeader1 = document.createElement('tr');
 
-        tableHeader1.innerHTML = '<th>Release</th><th>Date</th><th>Name</th><th><center>Update</center></th><th>Version</th><th>Remark</th>';
+        tableHeader1.innerHTML = '<th>发布版本</th><th>日期</th><th>名称</th><th><center>更新</center></th><th>版本</th><th>备注</th>';
         table1.appendChild(tableHeader1);
 
         rowCounter = 0;
@@ -170,7 +170,7 @@ export async function initUpdate() {
             if (rowCounter < 4 && release?.firmware_url) {
                 const tableRow = document.createElement('tr');
                 var tablerow;
-                var firmwareVer = "unknown";
+                var firmwareVer = "未知";
                 var release_url = release.firmware_url;
 
                 tablerow = `<td><a href="${release.html_url}" target="_new">${release.tag_name}</a></td><td>${release.date}</td><td>${release.name}</td>`;
@@ -182,19 +182,19 @@ export async function initUpdate() {
                         return response[2]['version'];
                     })
                     .catch(error => {
-                        print('Error fetching releases:' + error, "red");
+                        print('获取发布版本时出错:' + error, "red");
                     });
                 tablerow += '<td>' + firmwareVer + '</td><td>';
-                if (firmwareVer != 'unknown') {
+                if (firmwareVer != '未知') {
                     let Ver = Number('0x' + firmwareVer);
                     if (Ver > gCurrentRfVer) {
-                        tablerow += 'newer';
+                        tablerow += '较新';
                     }
                     else if (Ver < gCurrentRfVer) {
-                        tablerow += 'older';
+                        tablerow += '较旧';
                     }
                     else if (!Number.isNaN(Ver)) {
-                        tablerow += 'current version';
+                        tablerow += '当前版本';
                     }
                 }
                 tablerow += '</td>';
@@ -211,10 +211,10 @@ export async function initUpdate() {
     const table2 = document.createElement('table');
     {
         const tableHeader2 = document.createElement('tr');
-        tableHeader2.innerHTML = '<th>Firmware</th><th><center>Update</center></th>';
+        tableHeader2.innerHTML = '<th>固件</th><th><center>更新</center></th>';
         table2.appendChild(tableHeader2);
         const tableRow = document.createElement('tr');
-        tablerow = '<td title="manual upload, make sure all four files are present">Binaries from <a href="/edit" target="littlefs">file system</a></td>';
+        tablerow = '<td title="手动上传，确保四个文件都存在">来自 <a href="/edit" target="littlefs">文件系统</a> 的二进制文件</td>';
         tablerow += `<td><button type="button" onclick="otamodule.updateC6H2('')">${gModuleType}</button></td>`;
         tableRow.innerHTML = tablerow;
         table2.appendChild(tableRow);
@@ -225,7 +225,7 @@ export async function initUpdate() {
             "/master/binaries/ESP32-" + gShortName +
             "/firmware_" + gShortName + ".json";
 
-        tablerow = `<td><a href="https://github.com/${repo}/tree/master/binaries/ESP32-${gShortName}/" target="_new">Latest version from repo</a></td>`;
+        tablerow = `<td><a href="https://github.com/${repo}/tree/master/binaries/ESP32-${gShortName}/" target="_new">仓库最新版本</a></td>`;
         tablerow += `<td><button type="button" onclick="otamodule.updateC6H2('${Url}')">${gModuleType}</button></td>`;
         tableRow.innerHTML = tablerow;
         table2.appendChild(tableRow);
@@ -255,9 +255,9 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
             try {
                 if (running) return;
                 if (showReload) {
-                    if (!confirm("Confirm updating the filesystem")) return;
+                    if (!confirm("确认更新文件系统")) return;
                 } else {
-                    if (!confirm("Confirm updating the esp32 and filesystem")) return;
+                    if (!confirm("确认更新 ESP32 和文件系统")) return;
                 }
 
                 disableButtons(true);
@@ -266,7 +266,7 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
                 const consoleDiv = document.getElementById('updateconsole');
                 consoleDiv.scrollTop = consoleDiv.scrollHeight;
 
-                print("Updating littleFS partition...");
+                print("正在更新 littleFS 分区...");
 
                 fetch("//openepaperlink.eu/getupdate/?url=" + fileUrl)
                     .then(response => response.json())
@@ -274,7 +274,7 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
                         checkfiles(data);
                     })
                     .catch(error => {
-                        print('Error fetching data:' + error, "red");
+                        print('获取数据时出错:' + error, "red");
                     });
 
                 const checkfiles = async (files) => {
@@ -289,11 +289,11 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
                             if (response.ok) {
                                 await response.text();
                             } else {
-                                print(`error performing update actions: ${response.status}`, "red");
+                                print(`执行更新操作时出错: ${response.status}`, "red");
                                 errors++;
                             }
                         } catch (error) {
-                            console.error(`error calling update actions:` + error, "red");
+                            console.error(`调用更新操作时出错:` + error, "red");
                             errors++;
                         }
                     }
@@ -306,19 +306,19 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
                                 if (response.ok) {
                                     const data = await response.json();
                                     if (data.filesize == file.size && data.md5 == file.md5) {
-                                        print(`file ${file.path} is up to date`, "green");
+                                        print(`文件 ${file.path} 已是最新`, "green");
                                     } else if (data.filesize == 0) {
                                         await fetchAndPost(file.url, file.name, file.path);
                                     } else {
                                         await fetchAndPost(file.url, file.name, file.path);
                                     }
                                 } else {
-                                    print(`error checking file ${file.path}: ${response.status}`, "red");
+                                    print(`检查文件 ${file.path} 时出错: ${response.status}`, "red");
                                     errors++;
                                 }
                             }
                         } catch (error) {
-                            console.error(`error checking file ${file.path}:` + error, "red");
+                            console.error(`检查文件 ${file.path} 时出错:` + error, "red");
                             errors++;
                         }
                     }
@@ -326,24 +326,24 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
                     running = false;
                     if (errors) {
                         print("------", "gray");
-                        print(`Finished updating with ${errors} errors.`, "red");
+                        print(`更新完成，出现 ${errors} 个错误。`, "red");
                         reject(error);
                     } else {
                         print("------", "gray");
-                        print("Update succesful.");
+                        print("更新成功。");
                         resolve();
                     }
                     disableButtons(false);
 
                     if (showReload) {
                         const newLine = document.createElement('div');
-                        newLine.innerHTML = "<button onclick=\"location.reload()\">Reload this page</button>";
+                        newLine.innerHTML = "<button onclick=\"location.reload()\">重新加载此页面</button>";
                         consoleDiv.appendChild(newLine);
                         consoleDiv.scrollTop = consoleDiv.scrollHeight;
                     }
                 };
             } catch (error) {
-                print('Error: ' + error, "red");
+                print('错误: ' + error, "red");
                 errors++;
                 reject(error);
             }
@@ -354,7 +354,7 @@ export async function updateWebpage(fileUrl, tagname, showReload) {
 export async function updateESP(fileUrl, showConfirm) {
     if (running) return;
     if (showConfirm) {
-        if (!confirm("Confirm updating the esp32")) return;
+        if (!confirm("确认更新 ESP32")) return;
     }
 
     disableButtons(true);
@@ -363,7 +363,7 @@ export async function updateESP(fileUrl, showConfirm) {
     const consoleDiv = document.getElementById('updateconsole');
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
 
-    print("Updating firmware...");
+    print("正在更新固件...");
 
     let binurl, binmd5, binsize;
 
@@ -375,11 +375,11 @@ export async function updateESP(fileUrl, showConfirm) {
             const response = await fetch("//openepaperlink.eu/getupdate/?url=" + fileUrl + "&env=" + env);
             const responseBody = await response.text();
             if (!response.ok) {
-                throw new Error("Network response was not OK: " + responseBody);
+                throw new Error("网络响应不正常: " + responseBody);
             }
 
             if (!responseBody.trim().startsWith("[")) {
-                throw new Error("Failed to fetch the release info file");
+                throw new Error("获取发布信息文件失败");
             }
 
             const data = JSON.parse(responseBody);
@@ -388,7 +388,7 @@ export async function updateESP(fileUrl, showConfirm) {
                 binurl = "http://openepaperlink.eu/getupdate/?url=" + encodeURIComponent(file.url);
                 binmd5 = file.md5;
                 binsize = file.size;
-                console.log(`URL for "${file.name}": ${binurl}`);
+                console.log(`"${file.name}" 的 URL: ${binurl}`);
 
                 try {
                     const response = await fetch('update_ota', {
@@ -405,27 +405,27 @@ export async function updateESP(fileUrl, showConfirm) {
 
                     if (response.ok) {
                         await response.text();
-                        print('OTA update initiated.');
+                        print('OTA 更新已启动。');
                     } else {
-                        print('Failed to initiate OTA update: ' + response.status, "red");
+                        print('启动 OTA 更新失败: ' + response.status, "red");
                     }
                 } catch (error) {
-                    print('Error during OTA update: ' + error, "red");
+                    print('OTA 更新期间出错: ' + error, "red");
                 }
                 break;
             } else {
-                print(`No info about "${env}" found in the release.`, "red");
+                print(`在发布版本中未找到关于 "${env}" 的信息。`, "red");
             }
         } catch (error) {
-            print('Error: ' + error.message, "yellow");
+            print('错误: ' + error.message, "yellow");
             retryCount++;
-            print(`Retrying... attempt ${retryCount}`);
+            print(`重试中... 第 ${retryCount} 次尝试`);
             await new Promise((resolve) => setTimeout(resolve, 3000));
         }
     }
 
     if (retryCount === maxRetries) {
-        print("Reached maximum retry count. Failed to execute the update.", "red");
+        print("已达到最大重试次数。更新执行失败。", "red");
     }
 
     running = false;
@@ -441,7 +441,7 @@ $('#rollbackBtn').onclick = function () {
     const consoleDiv = document.getElementById('updateconsole');
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
 
-    print("Rolling back...");
+    print("正在回滚...");
 
     fetch("rollback", {
         method: "POST",
@@ -462,7 +462,7 @@ export async function updateC6H2(Url) {
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
     const formData = new FormData();
 
-    print("Flashing " + gModuleType + " ...");
+    print("正在刷写 " + gModuleType + " ...");
     formData.append('url', ReleaseUrl);
 
     fetch("update_c6", {
@@ -489,7 +489,7 @@ $('#selectRepo').onclick = function (event) {
         .then(data => {
             if (Array.isArray(data) && data.length > 0) {
                 const release = data[0];
-                print("Repo found! Latest release: " + release.name + " created " + release.created_at);
+                print("仓库已找到！最新发布版本: " + release.name + " 创建于 " + release.created_at);
                 const assets = release.assets;
                 const filesJsonAsset = assets.find(asset => asset.name === 'filesystem.json');
                 const binariesJsonAsset = assets.find(asset => asset.name === 'binaries.json');
@@ -497,19 +497,19 @@ $('#selectRepo').onclick = function (event) {
                     const updateUrl = "//openepaperlink.eu/getupdate/?url=" + binariesJsonAsset.browser_download_url + "&env=" + $('#repo').value;
                     return fetch(updateUrl);
                 } else {
-                    throw new Error("Json file binaries.json and/or filesystem.json not found in the release assets");
+                    throw new Error("在发布资产中未找到 Json 文件 binaries.json 和/或 filesystem.json");
                 }
             };
         })
         .then(updateResponse => {
             if (!updateResponse.ok) {
-                throw new Error("Network response was not OK");
+                throw new Error("网络响应不正常");
             }
             return updateResponse.text();
         })
         .then(responseBody => {
             if (!responseBody.trim().startsWith("[")) {
-                throw new Error("Failed to fetch the release info file");
+                throw new Error("获取发布信息文件失败");
             }
             const updateData = JSON.parse(responseBody).filter(item => !item.name.endsWith('_full.bin') && !item.name.includes('_H2.') && !item.name.includes('_C6.'));
 
@@ -531,7 +531,7 @@ $('#selectRepo').onclick = function (event) {
             $('#repoWarning').style.display = 'block';
         })
         .catch(error => {
-            print('Error fetching releases:' + error, "red");
+            print('获取发布版本时出错:' + error, "red");
         });
 }
 
@@ -555,9 +555,9 @@ $('#confirmSelectRepo').onclick = function (event) {
         .then(response => response.text())
         .then(data => {
             window.dispatchEvent(loadConfig);
-            print('OK, Saved');
+            print('好的，已保存');
         })
-        .catch(error => print('Error: ' + error));
+        .catch(error => print('错误: ' + error));
     $('#updateconsole').innerHTML = '';
     repoUrl = 'https://api.github.com/repos/' + repo + '/releases';
     initUpdate();
@@ -570,7 +570,7 @@ export function print(line, color = "white") {
         const newLine = document.createElement('div');
         newLine.style.color = color;
         if (line == "[reboot]") {
-            newLine.innerHTML = "<button onclick=\"otamodule.reboot()\">Reboot</button>";
+            newLine.innerHTML = "<button onclick=\"otamodule.reboot()\">重启</button>";
         } else {
             newLine.textContent = line;
         }
@@ -582,7 +582,7 @@ export function print(line, color = "white") {
 }
 
 export function reboot() {
-    print("Rebooting now... Reloading webpage in 5 seconds...", "yellow");
+    print("正在重启... 5秒后重新加载网页...", "yellow");
     fetch("reboot", { method: "POST" });
     setTimeout(() => {
         location.reload();
@@ -590,10 +590,10 @@ export function reboot() {
 }
 
 function formatEpoch(epochTime) {
-    const date = new Date(epochTime * 1000); // Convert seconds to milliseconds
+    const date = new Date(epochTime * 1000); // 将秒转换为毫秒
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -617,11 +617,11 @@ function formatDateTime(utcDateString) {
 
 const fetchAndPost = async (url, name, path) => {
     try {
-        print("updating " + path);
+        print("正在更新 " + path);
         const response = await fetch(url);
 
         if (!response.ok) {
-            print(`download error: ${response.status} ${response.body}`, "red");
+            print(`下载错误: ${response.status} ${response.body}`, "red");
             errors++;
         } else {
             const fileContent = await response.blob();
@@ -636,19 +636,19 @@ const fetchAndPost = async (url, name, path) => {
             });
 
             if (!uploadResponse.ok) {
-                print(`upload error: ${uploadResponse.status} ${uploadResponse.body}`, "red");
+                print(`上传错误: ${uploadResponse.status} ${uploadResponse.body}`, "red");
                 errors++;
             }
         }
     } catch (error) {
-        print('error: ' + error, "red");
+        print('错误: ' + error, "red");
         errors++;
     }
 };
 
 const writeVersion = async (content, name, path) => {
     try {
-        print("uploading " + path);
+        print("正在上传 " + path);
 
         const formData = new FormData();
         formData.append('path', path);
@@ -665,7 +665,7 @@ const writeVersion = async (content, name, path) => {
             errors++;
         }
     } catch (error) {
-        print('error: ' + error, "red");
+        print('错误: ' + error, "red");
         errors++;
     }
 };
@@ -678,14 +678,14 @@ function disableButtons(active) {
 }
 
 async function fetchAndCheckTagtypes(cleanup) {
-    print("Updating tagtype definitions...");
+    print("正在更新标签类型定义...");
     const sortableGrid = $('#taglist');
     const gridItems = Array.from(sortableGrid.querySelectorAll('.tagcard:not(#tagtemplate)'));
     try {
         const response = await fetch('/edit?list=%2Ftagtypes');
         if (!response.ok) {
-            print("Failed to fetch tagtypes list", "red");
-            throw new Error('Failed to fetch tagtypes list');
+            print("获取标签类型列表失败", "red");
+            throw new Error('获取标签类型列表失败');
         }
         const fileList = await response.json();
 
@@ -701,7 +701,7 @@ async function fetchAndCheckTagtypes(cleanup) {
                     isInUse = Array.from(gridItems).some(element => element.dataset.usetemplate == hwtype);
                 }
                 if (!isInUse) {
-                    print("not in use, deleting", "yellow");
+                    print("未使用，正在删除", "yellow");
                     const formData = new FormData();
                     formData.append('path', '/tagtypes/' + filename);
                     fetch('/edit', {
@@ -724,14 +724,14 @@ async function fetchAndCheckTagtypes(cleanup) {
                 const githubVersion = githubJson.version || 0;
 
                 if (githubVersion > localVersion) {
-                    print("update from version " + localVersion + " to " + githubVersion);
+                    print("从版本 " + localVersion + " 更新到 " + githubVersion);
                     await fetchAndPost(githubUrl, filename, "/tagtypes/" + filename);
                 }
             }
         }
-        print("Finished.");
+        print("完成。");
     } catch (error) {
-        print("Error: " + error, "red");
+        print("错误: " + error, "red");
     }
 }
 

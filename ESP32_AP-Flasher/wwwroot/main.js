@@ -18,20 +18,20 @@ let tagDB = {};
 const previewWindows = [];
 
 const apstate = [
-	{ state: "offline, please wait...", color: "orange", icon: "warning" },
-	{ state: "online", color: "green", icon: "check_circle" },
-	{ state: "flashing", color: "orange", icon: "flash_on" },
-	{ state: "wait for reset", color: "blue", icon: "hourglass" },
-	{ state: "AP requires reboot", color: "purple", icon: "refresh" },
-	{ state: "failed", color: "red", icon: "error" },
-	{ state: "coming online...", color: "orange", icon: "hourglass" },
-	{ state: "AP without radio", color: "green", icon: "wifi_off" }
+	{ state: "离线，请稍候...", color: "orange", icon: "warning" },
+	{ state: "在线", color: "green", icon: "check_circle" },
+	{ state: "刷写中", color: "orange", icon: "flash_on" },
+	{ state: "等待重置", color: "blue", icon: "hourglass" },
+	{ state: "接入点需要重启", color: "purple", icon: "refresh" },
+	{ state: "失败", color: "red", icon: "error" },
+	{ state: "正在上线...", color: "orange", icon: "hourglass" },
+	{ state: "无无线模块的接入点", color: "green", icon: "wifi_off" }
 ];
 const runstate = [
-	{ state: "⏹︎ stopped" },
-	{ state: "⏸ pause" },
+	{ state: "⏹︎ 已停止" },
+	{ state: "⏸ 暂停" },
 	{ state: "" }, // hide running
-	{ state: "⏳︎ init" }
+	{ state: "⏳︎ 初始化" }
 ];
 
 const imageQueue = [];
@@ -122,12 +122,12 @@ window.addEventListener("load", function () {
 					finishedInitialLoading = true;
 					connect();
 				})
-				.catch(error => showMessage('loadTags error: ' + error));
+				.catch(error => showMessage('loadTags 错误: ' + error));
 			setInterval(updatecards, 1000);
 		})
 		.catch(error => {
 			console.error('Error:', error);
-			alert("I can't load /www/content_cards.json.\r\nHave you upload it to the data partition?");
+			alert("无法加载 /www/content_cards.json。\r\n您是否已将其上传到数据分区？");
 		});
 
 	dropUpload();
@@ -207,10 +207,10 @@ function formatUptime(seconds) {
 	const remainingSeconds = seconds % 60;
 
 	const components = [
-		{ value: days, label: 'd' },
-		{ value: hours, label: 'h' },
-		{ value: minutes, label: 'm' },
-		{ value: remainingSeconds, label: 's' }
+		{ value: days, label: '天' },
+		{ value: hours, label: '时' },
+		{ value: minutes, label: '分' },
+		{ value: remainingSeconds, label: '秒' }
 	];
 
 	let formattedUptime = '';
@@ -229,7 +229,7 @@ function connect() {
 	socket = new WebSocket(protocol + location.host + location.pathname + "ws");
 
 	socket.addEventListener("open", (event) => {
-		showMessage("websocket connected");
+		showMessage("websocket 已连接");
 	});
 
 	socket.addEventListener("message", (event) => {
@@ -249,21 +249,21 @@ function connect() {
 		}
 		if (msg.sys) {
 			let str = "";
-			str += `free heap: ${convertSize(msg.sys.heap)} &#x2507; `;
+			str += `可用堆内存: ${convertSize(msg.sys.heap)} &#x2507; `;
 			if (msg.sys.psfree) {
-				str += `free PSRAM: ${convertSize(msg.sys.psfree)}  &#x2507; `;
+				str += `可用 PSRAM: ${convertSize(msg.sys.psfree)}  &#x2507; `;
 			}
-			str += `db size: ${convertSize(msg.sys.dbsize)} &#x2507; `;
-			str += `db record count: ${msg.sys.recordcount} &#x2507; `;
+			str += `数据库大小: ${convertSize(msg.sys.dbsize)} &#x2507; `;
+			str += `数据库记录数: ${msg.sys.recordcount} &#x2507; `;
 
 			if (msg.sys.littlefsfree < 31000) {
-				str += `filesystem <span class="blink-red" title="Generating content is paused">FULL! ${convertSize(
+				str += `文件系统 <span class="blink-red" title="内容生成已暂停">已满！${convertSize(
 					msg.sys.littlefsfree
 				)} </span>`;
 			} else {
-				str += `filesystem free: ${convertSize(msg.sys.littlefsfree)}`;
+				str += `文件系统可用: ${convertSize(msg.sys.littlefsfree)}`;
 			}
-			str += ` &#x2507; uptime: ${formatUptime(msg.sys.uptime)}`;
+			str += ` &#x2507; 运行时间: ${formatUptime(msg.sys.uptime)}`;
 
 			$("#sysinfo").innerHTML = str;
 
@@ -300,7 +300,7 @@ function connect() {
 	});
 
 	socket.addEventListener("close", (event) => {
-		showMessage(`websocket closed ${event.code}`);
+		showMessage(`websocket 已关闭 ${event.code}`);
 		setTimeout(connect, 5000);
 	});
 }
@@ -309,9 +309,9 @@ function convertSize(bytes) {
 	if (bytes >= 1073741824) { bytes = (bytes / 1073741824).toFixed(2) + " GB"; }
 	else if (bytes >= 1048576) { bytes = (bytes / 1048576).toFixed(2) + " MB"; }
 	else if (bytes >= 1024) { bytes = (bytes / 1024).toFixed(2) + " kB"; }
-	else if (bytes > 1) { bytes = bytes + " bytes"; }
-	else if (bytes == 1) { bytes = bytes + " byte"; }
-	else { bytes = "0 bytes"; }
+	else if (bytes > 1) { bytes = bytes + " 字节"; }
+	else if (bytes == 1) { bytes = bytes + " 字节"; }
+	else { bytes = "0 字节"; }
 	return bytes;
 }
 
@@ -344,12 +344,12 @@ function processTags(tagArray) {
 
 		if (element.contentMode == 255) {
 			div.remove();
-			showMessage(tagmac + " removed by remote AP");
+			showMessage(tagmac + " 被远程接入点移除");
 			continue;
 		}
 
 		if (element.isexternal) {
-			$('#tag' + tagmac + ' .mac').innerHTML = tagmac + " via ext AP";
+			$('#tag' + tagmac + ' .mac').innerHTML = tagmac + " 通过外部接入点";
 		} else {
 			$('#tag' + tagmac + ' .mac').innerHTML = tagmac;
 		}
@@ -385,7 +385,7 @@ function processTags(tagArray) {
 				$('#tag' + localTagmac + ' .resolution').innerHTML = data.width + "x" + data.height;
 				if (element.ver != 0 && element.ver != 1) {
 					div.dataset.ver = element.ver;
-					$('#tag' + localTagmac + ' .resolution').innerHTML += ` fw:${element.ver} 0x${element.ver.toString(16)}`;
+					$('#tag' + localTagmac + ' .resolution').innerHTML += ` 固件:${element.ver} 0x${element.ver.toString(16)}`;
 				}
 
 				if (!apConfig.preview || element.contentMode == 20) {
@@ -407,10 +407,10 @@ function processTags(tagArray) {
 
 			let statusline = "";
 			if (element.RSSI != 100) {
-				if (element.ch > 0) statusline += `CH ${element.ch}, `;
+				if (element.ch > 0) statusline += `频道 ${element.ch}, `;
 				statusline += `RSSI ${element.RSSI}, LQI ${element.LQI}`;
 			} else {
-				statusline = "AP";
+				statusline = "接入点";
 			}
 			if (element.batteryMv != 0 && element.batteryMv != 1337) {
 				statusline += ", " + (element.batteryMv == 2600 ? "&#x2265;" : "") + (element.batteryMv / 1000) + "V";
@@ -419,7 +419,7 @@ function processTags(tagArray) {
 			$('#tag' + tagmac + ' .received').style.opacity = "1";
 
 		} else {
-			$('#tag' + tagmac + ' .model').innerHTML = "waiting for hardware type";
+			$('#tag' + tagmac + ' .model').innerHTML = "等待硬件类型";
 			$('#tag' + tagmac + ' .received').style.opacity = "0";
 			$('#tag' + tagmac + ' .resolution').innerHTML = "";
 		}
@@ -427,7 +427,7 @@ function processTags(tagArray) {
 		if (element.nextupdate > 1672531200 && element.nextupdate != 3216153600) {
 			const date = new Date(element.nextupdate * 1000);
 			const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-			$('#tag' + tagmac + ' .nextupdate').innerHTML = "<span>next update</span>" + date.toLocaleString('nl-NL', options);
+			$('#tag' + tagmac + ' .nextupdate').innerHTML = "<span>下次更新</span>" + date.toLocaleString('nl-NL', options);
 		} else {
 			$('#tag' + tagmac + ' .nextupdate').innerHTML = "";
 		}
@@ -463,7 +463,7 @@ function processTags(tagArray) {
 				break;
 			case WAKEUP_REASON_BOOT:
 			case WAKEUP_REASON_FIRSTBOOT:
-				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<font color=yellow>First boot</font>"
+				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<font color=yellow>首次启动</font>"
 				div.classList.add("state-boot");
 				stateClassSet = true;
 				break;
@@ -473,28 +473,28 @@ function processTags(tagArray) {
 			case WAKEUP_REASON_BUTTON3:
 			case WAKEUP_REASON_NFC:
 				let reasonText = {
-					[WAKEUP_REASON_GPIO]: "GPIO wakeup",
-					[WAKEUP_REASON_BUTTON1]: "Button 1 pressed",
-					[WAKEUP_REASON_BUTTON2]: "Button 2 pressed",
-					[WAKEUP_REASON_BUTTON3]: "Button 3 pressed",
-					[WAKEUP_REASON_NFC]: "NFC wakeup"
+					[WAKEUP_REASON_GPIO]: "GPIO 唤醒",
+					[WAKEUP_REASON_BUTTON1]: "按钮1按下",
+					[WAKEUP_REASON_BUTTON2]: "按钮2按下",
+					[WAKEUP_REASON_BUTTON3]: "按钮3按下",
+					[WAKEUP_REASON_NFC]: "NFC 唤醒"
 				}[parseInt(element.wakeupReason)];
 				$('#tag' + tagmac + ' .nextcheckin').innerHTML = reasonText;
 				div.classList.add("state-wakeup");
 				stateClassSet = true;
 				break;
 			case WAKEUP_REASON_NETWORK_SCAN:
-				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<font color=yellow>Network scan</font>"
+				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<font color=yellow>网络扫描</font>"
 				div.classList.add("state-scan");
 				stateClassSet = true;
 				break;
 			case WAKEUP_REASON_WDT_RESET:
-				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "Watchdog reset!"
+				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "看门狗复位！"
 				div.classList.add("state-reset");
 				stateClassSet = true;
 				break;
 			case WAKEUP_REASON_FAILED_OTA_FW:
-				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "Firmware update rejected!"
+				$('#tag' + tagmac + ' .nextcheckin').innerHTML = "固件更新被拒绝！"
 				div.classList.add("state-failed-ota");
 				stateClassSet = true;
 				break;
@@ -536,7 +536,7 @@ function updatecards() {
 		if (tagDB[tagmac].batteryMv < 2400 && tagDB[tagmac].batteryMv != 0 && tagDB[tagmac].batteryMv != 1337) lowbattcount++;
 		if (item.dataset.lastseen && item.dataset.lastseen > (Date.now() / 1000) - servertimediff - 30 * 24 * 3600 * 60) {
 			let idletime = (Date.now() / 1000) - servertimediff - item.dataset.lastseen;
-			$('#tag' + tagmac + ' .lastseen').innerHTML = "<span>last seen</span>" + displayTime(Math.floor(idletime)) + " ago";	
+			$('#tag' + tagmac + ' .lastseen').innerHTML = "<span>上次上线</span>" + displayTime(Math.floor(idletime)) + " 前";	
 			if ((Date.now() / 1000) - servertimediff - apConfig.maxsleep * 60 - 300 > item.dataset.nextcheckin) {
 				item.querySelector('.warningicon').style.display = 'inline-block';
 				item.classList.remove("tagpending");
@@ -559,15 +559,15 @@ function updatecards() {
 			if ($('#tag' + tagmac + ' .lastseen')) {
 				$('#tag' + tagmac + ' .lastseen').innerHTML = ""
 			} else {
-				console.log(tagmac + " not found")
+				console.log(tagmac + " 未找到")
 			}
 		}
 
 		if (item.dataset.nextcheckin == 3216153600) {
-			$('#tag' + tagmac + ' .nextcheckin').innerHTML = "In deep sleep";
+			$('#tag' + tagmac + ' .nextcheckin').innerHTML = "深度休眠中";
 		} else if (item.dataset.nextcheckin > 1672531200 && parseInt(item.dataset.wakeupreason) == 0) {
 			let nextcheckin = item.dataset.nextcheckin - ((Date.now() / 1000) - servertimediff);
-			$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<span>expected checkin</span>" + displayTime(Math.floor(nextcheckin));
+			$('#tag' + tagmac + ' .nextcheckin').innerHTML = "<span>预计签到</span>" + displayTime(Math.floor(nextcheckin));
 		} else {
 			// $('#tag' + tagmac + ' .nextcheckin').innerHTML = "";
 		}
@@ -657,7 +657,7 @@ document.addEventListener('keypress', (event) => {
 		const hexRegExp = /^[0-9A-Fa-f]{16}$/;
 		const isMac = typedString.match(hexRegExp);
 		if (isMac) {
-			console.log('scanned ' + typedString);
+			console.log('扫描到 ' + typedString);
 			loadContentCard(typedString);
 		}
 		typedString = '';
@@ -702,7 +702,7 @@ $('#cfgsave').onclick = function () {
 	})
 		.then(response => response.text())
 		.then(data => showMessage(data))
-		.catch(error => showMessage('Error: ' + error, true));
+		.catch(error => showMessage('错误: ' + error, true));
 
 	$('#advancedoptions').style.height = '0px';
 	$('#configbox').close();
@@ -723,7 +723,7 @@ function sendCmd(mac, cmd) {
 			if (cmd == "del") div.remove();
 			showMessage(data);
 		})
-		.catch(error => showMessage('Error: ' + error, true));
+		.catch(error => showMessage('错误: ' + error, true));
 	$('#advancedoptions').style.height = '0px';
 	$('#configbox').close();
 }
@@ -770,7 +770,7 @@ $('#cfgautoupdate').onclick = async function () {
 	var tagtype = ("0" + (Number($('#tag' + mac).dataset.hwtype).toString(16))).slice(-2).toUpperCase();
 	var name = info[0][tagtype]["type"];
 	if (name == "") {
-		alert("Tag id not known");
+		alert("未知的标签ID");
 		return false;
 	}
 	var version = info[0][tagtype]["version"];
@@ -786,7 +786,7 @@ $('#cfgautoupdate').onclick = async function () {
 	}
 
 	var currentversion = $('#tag' + mac).dataset.ver | 0;
-	if (confirm(`Current version: ${currentversion} 0x${currentversion.toString(16)}\nPending version: ${parseInt(version, 16)} 0x${parseInt(version, 16).toString(16)}\n\nNOTE: Every OTA update comes with a risk of bricking the tag, if it is bricked, it only can be recoverd with a tag flasher. Please only update if you need the new features.\n\nPress Cancel if you want to get out of here, or press OK if you want to proceed with the update.`)) {
+	if (confirm(`当前版本: ${currentversion} 0x${currentversion.toString(16)}\n待更新版本: ${parseInt(version, 16)} 0x${parseInt(version, 16).toString(16)}\n\n注意：每次 OTA 更新都有可能导致标签变砖，如果变砖，只能通过标签刷写器恢复。请仅在需要新功能时进行更新。\n\n按“取消”退出，按“确定”继续更新。`)) {
 
 		var fullFilename = name + "_" + version + ".bin";
 		var filepath = "/" + fullFilename;
@@ -807,23 +807,23 @@ $('#cfgautoupdate').onclick = async function () {
 						body: formData2
 					});
 					if (!uploadResponse.ok) {
-						showMessage('Error: auto update failed to upload', true);
+						showMessage('错误: 自动更新上传失败', true);
 					}
 				} catch (error) {
-					showMessage('Error: ' + error, true);
+					showMessage('错误: ' + error, true);
 				}
 			}
-		} else showMessage('Error: auto update failed', true);
+		} else showMessage('错误: 自动更新失败', true);
 		var response = await fetch(url);
 		if (response.ok) {
 			var data = await response.json();
 			if (data.filesize == 0 || data.md5 != md5) {
-				showMessage('Error: auto update failed to download. File is empty or md5 check fails', true);
+				showMessage('错误: 自动更新下载失败。文件为空或 md5 校验失败', true);
 			}
 			//sucess
 			else obj["filename"] = filepath;
 		}
-		else showMessage('Error: auto update failed', true);
+		else showMessage('错误: 自动更新失败', true);
 		formData.append("contentmode", 5);
 		formData.append("modecfgjson", JSON.stringify(obj));
 		fetch("save_cfg", {
@@ -832,19 +832,19 @@ $('#cfgautoupdate').onclick = async function () {
 		})
 			.then(response => response.text())
 			.then(data => showMessage(data))
-			.catch(error => showMessage('Error: ' + error, true));
+			.catch(error => showMessage('错误: ' + error, true));
 	}
 	$('#configbox').close();
 }
 
 $('#rebootbutton').onclick = function (event) {
 	event.preventDefault();
-	if (!confirm('Reboot AP now?')) return;
+	if (!confirm('现在重启接入点吗？')) return;
 	socket.close();
 	fetch("reboot", {
 		method: "POST"
 	});
-	alert('Rebooted. Webpage will reload.');
+	alert('已重启。页面将重新加载。');
 	location.reload()
 }
 
@@ -929,9 +929,9 @@ $('#apcfgsave').onclick = function () {
 		.then(data => {
 			showMessage(data);
 			window.dispatchEvent(loadConfig);
-			$('#apcfgmsg').innerHTML = 'OK, Saved';
+			$('#apcfgmsg').innerHTML = 'OK，已保存';
 		})
-		.catch(error => showMessage('Error: ' + error, true));
+		.catch(error => showMessage('错误: ' + error, true));
 }
 
 $('#uploadButton').onclick = function () {
@@ -945,19 +945,19 @@ $('#uploadButton').onclick = function () {
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
+					throw new Error(`HTTP 错误! 状态码: ${response.status}`);
 				}
 				return response.text();
 			})
 			.then(data => {
-				alert('TagDB restored. Webpage will reload.');
+				alert('标签数据库已恢复。页面将重新加载。');
 				location.reload();
 			})
 			.catch(error => {
-				alert('Error uploading file: ' + error);
+				alert('上传文件时出错: ' + error);
 			});
 	} else {
-		alert('No file selected');
+		alert('未选择文件');
 	}
 }
 
@@ -983,19 +983,19 @@ $('#restoreFromLocal').onclick = function () {
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
+					throw new Error(`HTTP 错误! 状态码: ${response.status}`);
 				}
 				return response.text();
 			})
 			.then(data => {
-				alert('TagDB restored. Webpage will reload.');
+				alert('标签数据库已恢复。页面将重新加载。');
 				location.reload();
 			})
 			.catch(error => {
-				alert('Error uploading file: ' + error);
+				alert('上传文件时出错: ' + error);
 			});
 	} else {
-		alert('No data found in localStorage');
+		alert('在 localStorage 中未找到数据');
 	}
 }
 
@@ -1100,7 +1100,7 @@ function contentselected() {
 							})
 						})
 						.catch(error => {
-							console.error("Error fetching JSON data:", error);
+							console.error("获取 JSON 数据时出错:", error);
 						});
 					break;
 				case 'select':
@@ -1180,7 +1180,7 @@ function populateSelectTag(hwtype, capabilities) {
 		if (i == 0 || tagTypes[hwtype].width == tagTypes[hwtype].height || (i == 2)) {
 			option = document.createElement("option");
 			option.value = i;
-			option.text = (i * 90) + " degrees";
+			option.text = (i * 90) + " 度";
 			rotateTag.appendChild(option);
 		}
 	}
@@ -1191,24 +1191,24 @@ function populateSelectTag(hwtype, capabilities) {
 	option = document.createElement("option");
 	option.value = "0";
 	if (tagTypes[hwtype].shortlut == 0) {
-		option.text = "Always full refresh";
+		option.text = "始终全刷";
 	} else {
-		option.text = "auto";
+		option.text = "自动";
 	}
 	lutTag.appendChild(option);
 
 	if (tagTypes[hwtype].shortlut > 0) {
 		option = document.createElement("option");
 		option.value = "1";
-		option.text = "Always full refresh";
+		option.text = "始终全刷";
 		lutTag.appendChild(option);
 		option = document.createElement("option");
 		option.value = "2";
-		option.text = "Fast (no reds)";
+		option.text = "快速（无红色）";
 		lutTag.appendChild(option);
 		option = document.createElement("option");
 		option.value = "3";
-		option.text = "Fastest (ghosting!)";
+		option.text = "最快（有残影！）";
 		lutTag.appendChild(option);
 	}
 
@@ -1287,7 +1287,7 @@ function processQueue() {
 			processQueue();
 		})
 		.catch(error => {
-			console.error('processQueue error:', error);
+			console.error('processQueue 错误:', error);
 			processQueue();
 		});
 }
@@ -1459,13 +1459,13 @@ function GroupSortFilter() {
 					header = document.createElement('div');
 					switch (grouping) {
 						case 'model':
-							header.textContent = 'Tag model: ' + group;
+							header.textContent = '标签型号: ' + group;
 							break;
 						case 'contentmode':
-							header.textContent = 'Content: ' + group;
+							header.textContent = '内容: ' + group;
 							break;
 						case 'data-channel':
-							header.textContent = 'Channel: ' + group;
+							header.textContent = '频道: ' + group;
 							break;
 					}
 					header.classList.add('taggroup');
@@ -1490,7 +1490,7 @@ function GroupSortFilter() {
 		const checkedValues = Array.from(document.querySelectorAll('input[name="filter"]:checked'))
 			.map(checkbox => checkbox.value)
 			.join(', ');
-		$('#activefilter').innerHTML = (checkedValues ? 'filtered by ' + checkedValues : '');
+		$('#activefilter').innerHTML = (checkedValues ? '筛选条件: ' + checkedValues : '');
 	});
 
 	headItems = Array.from($('#taglist').getElementsByClassName('taggroup'));
@@ -1519,14 +1519,14 @@ $('#activefilter').addEventListener('click', (event) => {
 
 const downloadTagtype = async (hwtype) => {
 	try {
-		console.log("download tagtype " + hwtype);
+		console.log("下载标签类型 " + hwtype);
 		let repo = apConfig.repo || 'OpenEPaperLink/OpenEPaperLink';
 		let url = "https://raw.githubusercontent.com/" + repo + "/master/resources/tagtypes/" + hwtype + ".json";
 		console.log(url);
 
 		const response = await fetch(url);
 		if (!response.ok) {
-			console.log("github download error " + response.status);
+			console.log("github 下载错误 " + response.status);
 			return response;
 		}
 		const clonedResponse = response.clone();
@@ -1542,12 +1542,12 @@ const downloadTagtype = async (hwtype) => {
 		});
 
 		if (!uploadResponse.ok) {
-			console.log("upload error " + uploadResponse.status);
+			console.log("上传错误 " + uploadResponse.status);
 		}
 
 		return response;
 	} catch (error) {
-		console.log('error: ' + error);
+		console.log('错误: ' + error);
 	}
 };
 
@@ -1600,7 +1600,7 @@ async function getTagtype(hwtype) {
 		}
 
 		if (!response.ok) {
-			let data = { name: 'unknown id ' + hwtype.toString(16).toUpperCase(), width: 0, height: 0, bpp: 0, rotatebuffer: 0, colortable: [], busy: false };
+			let data = { name: '未知 ID ' + hwtype.toString(16).toUpperCase(), width: 0, height: 0, bpp: 0, rotatebuffer: 0, colortable: [], busy: false };
 			tagTypes[hwtype] = data;
 			getTagtypeBusy = false;
 			return data;
@@ -1629,7 +1629,7 @@ async function getTagtype(hwtype) {
 		return data;
 
 	} catch (error) {
-		console.error('Error fetching data:', error);
+		console.error('获取数据时出错:', error);
 		getTagtypeBusy = false;
 		return null;
 	}
@@ -1701,18 +1701,18 @@ function dropUpload() {
 							});
 
 							if (response.ok) {
-								console.log('Resized image uploaded successfully');
+								console.log('图片上传成功');
 							} else {
-								console.error('Image upload failed');
+								console.error('图片上传失败');
 							}
 						} catch (error) {
-							console.error('Image upload failed', error);
+							console.error('图片上传失败', error);
 						}
 					}, 'image/jpeg');
 				};
 
 				image.onerror = function () {
-					console.error('Failed to load image.');
+					console.error('图片加载失败。');
 				};
 			};
 			reader.readAsDataURL(file);
@@ -1731,13 +1731,13 @@ function dropUpload() {
 				})
 					.then(response => {
 						if (response.ok) {
-							console.log('JSON uploaded successfully');
+							console.log('JSON 上传成功');
 						} else {
-							console.error('JSON upload failed');
+							console.error('JSON 上传失败');
 						}
 					})
 					.catch(error => {
-						console.error('JSON upload failed', error);
+						console.error('JSON 上传失败', error);
 					});
 			};
 			reader.readAsText(file);
@@ -1766,36 +1766,36 @@ $('#taglist').addEventListener('contextmenu', (e) => {
 		let contextMenuOptions = [];
 		if (tagTypes[hwtype]?.width > 0) {
 			contextMenuOptions.push(
-				{ id: 'refresh', label: 'Force refresh' },
-				{ id: 'clear', label: 'Clear pending status' }
+				{ id: 'refresh', label: '强制刷新' },
+				{ id: 'clear', label: '清除待处理状态' }
 			);
 			if (clickedGridItem.dataset.isexternal == "false") {
 				contextMenuOptions.push(
-					{ id: 'scan', label: 'Scan channels' },
-					{ id: 'reboot', label: 'Reboot tag' },
+					{ id: 'scan', label: '扫描频道' },
+					{ id: 'reboot', label: '重启标签' },
 				);
 			};
 			if (tagTypes[hwtype]?.options?.includes("led")) {
 				contextMenuOptions.push(
-					{ id: 'ledflash', label: 'Flash the LED' },
-					{ id: 'ledflash_long', label: 'Flash the LED (long)' },
-					{ id: 'ledflash_stop', label: 'Stop flashing' }
+					{ id: 'ledflash', label: '闪烁 LED' },
+					{ id: 'ledflash_long', label: '闪烁 LED（长）' },
+					{ id: 'ledflash_stop', label: '停止闪烁' }
 				);
 			}
 		}
 		contextMenuOptions.push(
-			{ id: 'del', label: 'Delete tag from list' }
+			{ id: 'del', label: '从列表中删除标签' }
 		);
 		let idletime = (Date.now() / 1000) - servertimediff - clickedGridItem.dataset.lastseen;
 		if ((Date.now() / 1000) - servertimediff - 600 > clickedGridItem.dataset.nextcheckin || idletime > 24 * 3600 || clickedGridItem.dataset.nextcheckin == 3216153600) {
 			contextMenuOptions.push(
-				{ id: 'purge', label: 'Delete all inactive tags' }
+				{ id: 'purge', label: '删除所有不活跃标签' }
 			);
 		}
 		contextMenu.innerHTML = '';
 
 		const li = document.createElement('li');
-		li.textContent = "Tag preview";
+		li.textContent = "标签预览";
 		li.addEventListener('click', (e) => {
 			e.preventDefault();
 			openPreview(mac, tagTypes[hwtype].width, tagTypes[hwtype].height);
@@ -1856,7 +1856,7 @@ function populateAPCard(msg) {
 	Array.from(elements).forEach(element => {
 		if (element.textContent === msg.channel && element.id !== 'ap' + apid) {
 			$('#ap' + apid + ' .apchannel').style.color = 'red';
-			$('#ap' + apid + ' .apchannel').innerHTML += ' conflict';
+			$('#ap' + apid + ' .apchannel').innerHTML += ' 冲突';
 		}
 	});
 
@@ -1870,7 +1870,7 @@ function populateAPInfo(apip) {
 	fetch('http://' + apip + '/sysinfo')
 		.then(response => {
 			if (response.status != 200) {
-				$('#ap' + apid + ' .apswversion').innerHTML = "Error fetching sysinfo: " + response.status;
+				$('#ap' + apid + ' .apswversion').innerHTML = "获取系统信息时出错: " + response.status;
 				return {};
 			} else {
 				return response.json();
@@ -1889,27 +1889,27 @@ function populateAPInfo(apip) {
 					gModuleType = "TSLR";
 				}
 				let version = '';
-				version += `env:                ${data.env}<br>`;
-				version += `build date:         ${formatEpoch(data.buildtime)}<br>`;
-				version += `esp32 version:      ${data.buildversion}<br>`;
-				version += `psram size:         ${data.psramsize}<br>`;
-				version += `flash size:         ${data.flashsize}<br>`;
+				version += `环境:                ${data.env}<br>`;
+				version += `构建日期:            ${formatEpoch(data.buildtime)}<br>`;
+				version += `ESP32 版本:          ${data.buildversion}<br>`;
+				version += `PSRAM 大小:          ${data.psramsize}<br>`;
+				version += `闪存大小:            ${data.flashsize}<br>`;
 				if (gModuleType) {
-					version += `${gModuleType} version: 0x${parseInt(data.ap_version).toString(16).toUpperCase()}<br>`;
+					version += `${gModuleType} 版本: 0x${parseInt(data.ap_version).toString(16).toUpperCase()}<br>`;
 				}
 				$('#ap' + apid + ' .apswversion').innerHTML = version;
 			}
 		})
 		.catch(error => {
-			$('#ap' + apid + ' .apswversion').innerHTML = "Error fetching sysinfo: " + error;
+			$('#ap' + apid + ' .apswversion').innerHTML = "获取系统信息时出错: " + error;
 		});
 }
 
 function formatEpoch(epochTime) {
-	const date = new Date(epochTime * 1000); // Convert seconds to milliseconds
+	const date = new Date(epochTime * 1000); // 将秒转换为毫秒
 
 	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+	const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始
 	const day = String(date.getDate()).padStart(2, '0');
 	const hours = String(date.getHours()).padStart(2, '0');
 	const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -1945,7 +1945,7 @@ async function searchLocations() {
 		const data = await response.json();
 		displayResults(data.results);
 	} catch (error) {
-		console.error('Error fetching data:', error);
+		console.error('获取数据时出错:', error);
 	}
 }
 
@@ -2017,7 +2017,7 @@ function openPreview(mac, w, h) {
 		};
 
 	} else {
-		console.error("Failed to open preview window.");
+		console.error("无法打开预览窗口。");
 	}
 }
 
@@ -2026,7 +2026,7 @@ function showPreview(previewWindow, element) {
 	const canvas = previewWindow.document.getElementById('preview');
 
 	if (element.pending != previewWindow.pending && element.pending != 0) {
-		console.log('refresh ' + element.mac);
+		console.log('刷新 ' + element.mac);
 		previewWindow.pending = element.pending;
 		previewWindow.hash = "";
 		let cachetag = Date.now();
@@ -2056,7 +2056,7 @@ function showPreview(previewWindow, element) {
 				drawCanvas(buffer, canvas, element.hwType, element.mac, false);
 			})
 			.catch(error => {
-				console.error('fetch preview image error:', error);
+				console.error('获取预览图片时出错:', error);
 			});
 	}
 }

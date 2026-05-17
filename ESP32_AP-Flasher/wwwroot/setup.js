@@ -51,7 +51,7 @@ function getSsidList() {
                 $('#ssid').value = ssidval;
             }
             document.body.style.cursor = 'default';
-            $('#listssid').innerHTML = 'find SSID';
+            $('#listssid').innerHTML = '查找 SSID';
         });
 };
 
@@ -74,15 +74,15 @@ $('#connect').addEventListener('click', () => {
     })
         .then(response => {
             if (response.ok) {
-                console.log('WiFi settings saved successfully');
+                console.log('WiFi 设置已成功保存');
                 let url = "/";
                 if ($('#ip').value) url = "http://" + $('#ip').value + "/";
-                $('.window').innerHTML = "<h1>Wifi settings saved...</h1>Rebooting...<br>Wait a few seconds and then go to the <a href=\"" + url + "\">Access Point web page</a>.";
+                $('.window').innerHTML = "<h1>WiFi 设置已保存...</h1>正在重启...<br>请稍等几秒钟，然后转到<a href=\"" + url + "\">接入点网页</a>。";
             } else {
-                console.log('Error saving WiFi settings');
+                console.log('保存 WiFi 设置时出错');
             }
         })
         .catch(error => {
-            console.log('Network error:', error);
+            console.log('网络错误：', error);
         });
 });
